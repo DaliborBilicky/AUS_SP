@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BilickyDaliborSP.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\BilickyDaliborSP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
