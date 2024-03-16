@@ -130,10 +130,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Region.cpp" />
+    <ClCompile Include="src\Settlement.cpp" />
+    <ClCompile Include="src\Soorp.cpp" />
     <ClCompile Include="src\BilickyDaliborSP.cpp" />
+    <ClCompile Include="src\TerritorialUnit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\CR.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Region.h" />
+    <ClInclude Include="src\Settlement.h" />
+    <ClInclude Include="src\Soorp.h" />
+    <ClInclude Include="src\TerritorialUnit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
