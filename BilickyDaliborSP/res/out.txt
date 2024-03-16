@@ -1,0 +1,33 @@
+﻿
+
+HLAVNÍ MĚSTO PRAHA
+CZ010
+x
+x
+
+
+STŘEDOČESKÝ KRAJ
+CZ020
+2101
+Benešov
+CZ020
+2101
+Benešov
+CZ020
+2101
+Benešov
+CZ020
+2101
+Benešov
+CZ020
+2101
+Benešov
+CZ020
+2101
+Benešov
+CZ020
+2101
+Benešov
+CZ020
+2101
+Benešov

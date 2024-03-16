@@ -132,6 +132,9 @@
   <ItemGroup>
     <ClCompile Include="src\BilickyDaliborSP.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\CR.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
