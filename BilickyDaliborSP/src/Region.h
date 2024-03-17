@@ -4,11 +4,12 @@
 
 using namespace std;
 
-class Region : private TerritorialUnit {
+class Region : public TerritorialUnit {
   public:
     Region();
-    Region(string name, string code);
+    Region(string& name, int code);
     ~Region();
+	string getFullCode();
 
     friend std::ostream &operator<<(std::ostream &os,
                                     const Region &region);

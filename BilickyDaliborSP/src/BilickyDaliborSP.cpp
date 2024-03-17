@@ -25,24 +25,33 @@ int main(int argc, char *argv[]) {
         ifs.open("./res/CR.csv");
         ifs.ignore(3);
 
-        int c = 0;
         while (getline(ifs, line)) {
-            string temp;
             stringstream sStream(line);
+            string temp;
             string name;
-            string code;
             string type;
-
+            int code = 0;
 
             if (line.substr(0, 2) == ";;") {
-                //name = line.substr(2);
-                //getline(ifs, line);
-                //getline(sStream, code, ';');
-                //regions.push_back(Region(name, code));
-                continue;
+                std::getline(sStream, temp, ';');
+                std::getline(sStream, temp, ';');
+
+
+                getline(sStream, name, ';');
+                getline(ifs, line);
+                sStream = stringstream(line);
+
+                getline(sStream, temp, ';');
+                code = atoi(temp.substr(2).c_str());
+                regions.push_back(Region(name, code));
+
+                sStream = stringstream(line);
             }
 				getline(sStream, temp, ';');
-				getline(sStream, code, ';');
+
+				getline(sStream, temp, ';');
+				code = atoi(temp.c_str());
+
 				getline(sStream, name, ';');
 
 				getline(sStream, temp, ';'); //poradove cislo 
@@ -52,7 +61,8 @@ int main(int argc, char *argv[]) {
 				}
 
 				getline(sStream, name, ';');
-				getline(sStream, code, ';');
+				getline(sStream, temp, ';');
+				code = atoi(temp.c_str());
 				getline(sStream, type, ';');
 
 				getline(sStream, temp, ';');
@@ -86,20 +96,19 @@ int main(int argc, char *argv[]) {
 				settlements.push_back(Settlement(name, code, type, cadaArea,
 												 numOfRes, resU14, resO65, canal,
 												 water, gas));
-					
-
-            if (c == 60) {
-                break;
-            }
-            c++;
-        }
-        for (int i = 0; i < settlements.size(); i++) {
-            cout << settlements[i] << endl;
         }
 
         for (int i = 0; i < soorps.size(); i++) {
             cout << soorps[i] << endl;
         }
+
+		cout << soorps.size() << endl << endl;
+
+        for (int i = 0; i < regions.size(); i++) {
+			cout << regions[i] << endl;
+        }
+
+		cout << regions.size() << endl << endl;
        
         ifs.close();
     }

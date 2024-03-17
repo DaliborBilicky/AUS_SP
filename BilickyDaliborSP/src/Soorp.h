@@ -3,10 +3,10 @@
 
 using namespace std;
 
-class Soorp : private TerritorialUnit {
+class Soorp : public TerritorialUnit {
   public:
     Soorp();
-    Soorp(string name, string code);
+    Soorp(string& name, int code);
     ~Soorp();
 
     friend std::ostream &operator<<(std::ostream &os,

@@ -3,7 +3,7 @@
 Settlement::Settlement() {}
 
 Settlement::Settlement(
-    string& name, string& code, string& type, int cadastralArea, 
+    string& name, int code, string& type, int cadastralArea, 
     int numOfResidents, int residentsUnder14, int residentsOver65, 
     char canalization, char water, char gas
 )
@@ -33,14 +33,14 @@ char Settlement::getGas() { return gas; }
 
 std::ostream &operator<<(std::ostream &os, const Settlement &settlement) {
     os << settlement.getName() 
-       << " " << settlement.getCode() 
-       << " " << settlement.type 
-       << " " << settlement.cadastralArea 
-	   << " " << settlement.numOfResidents 
-	   << " " << settlement.residentsUnder14 
-	   << " " << settlement.residentsOver65
-	   << " " << settlement.canalization 
-	   << " " << settlement.water 
-	   << " " << settlement.gas;
+       << " | " << settlement.getCode() 
+       << " | " << settlement.type 
+       << " | " << settlement.cadastralArea 
+	   << " | " << settlement.numOfResidents 
+	   << " | " << settlement.residentsUnder14 
+	   << " | " << settlement.residentsOver65
+	   << " | " << settlement.canalization 
+	   << " | " << settlement.water 
+	   << " | " << settlement.gas;
 	return os;
 }
