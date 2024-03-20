@@ -14,5 +14,5 @@ string Region::getFullCode() {
     return "CZ0" + to_string(this->getCode()); }
 
 void Region::print(ostream &os) const {
-    os << this->getName() << "(CZ0" << this->getCode() << ")";
+    os << this->getName() << " - CZ0" << this->getCode();
 }

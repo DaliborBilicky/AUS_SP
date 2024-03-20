@@ -8,6 +8,6 @@ Soorp::Soorp(string& name, int code) : TerritorialUnit(name, code) {}
 Soorp::~Soorp() {}
 
 void Soorp::print(ostream &os) const {
-    os << this->getName() << "(" << this->getCode() << ")";
+    os << this->getName() << " - " << this->getCode();
 }
 

@@ -18,13 +18,15 @@ class Algorithms {
 
 	static void parseCSV(string &path, vector<Settlement> &settlements,
 		vector<Soorp> &soorps, vector<Region> &regions);
+
+    static string& lowerCase(string &str);
 };
 
 template <typename IteratorT, typename Predicate, typename StructT>
 void Algorithms::process(IteratorT begin, IteratorT end, Predicate predicate, StructT &results) {
 	while (begin != end) {
 		if (predicate(*begin)) {
-            results.emplace_back(*begin);
+            results.emplace_back(&(*begin));
 		}
         ++begin;
     }
