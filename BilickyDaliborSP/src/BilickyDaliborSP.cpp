@@ -3,6 +3,7 @@
 #include <vector>
 #include <crtdbg.h>
 #include <windows.h>
+#include <functional>
 #include "Algorithms.h"
 #include "TerritorialUnit.h"
 #include "Settlement.h"
@@ -16,6 +17,7 @@ int main(int argc, char *argv[]) {
     SetConsoleCP(1250);
     SetConsoleOutputCP(1250);
     { 
+        vector<TerritorialUnit> result;
         vector<Settlement> settlements;
         vector<Soorp> soorps;
         vector<Region> regions;
@@ -23,13 +25,23 @@ int main(int argc, char *argv[]) {
         string hladany = "";
 
         Algorithms::parseCSV(path, settlements, soorps, regions);
+
+
+
         cout << "Zadaj string: ";
         cin >> hladany;
 
-        for (int i = 0; i < regions.size(); i++) {
-            cout << regions[i];
+        auto containsString =
+            [&](TerritorialUnit unit) -> bool {
+            return unit.getName().find(hladany) != string::npos;
+        };
 
-            if (regions[i].getName().find(hladany) != string::npos){
+        Algorithms::process(settlements.begin(), settlements.end(), containsString, result);
+
+        for (int i = 0; i < result.size(); i++) {
+            cout << result[i];
+
+            if (result[i].getName().find(hladany) != string::npos){
                 cout << " *" << endl;
             } else {
                 cout << endl;

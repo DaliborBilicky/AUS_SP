@@ -1,6 +1,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <functional>
 #include "Algorithms.h"
 #include "TerritorialUnit.h"
 #include "Settlement.h"
