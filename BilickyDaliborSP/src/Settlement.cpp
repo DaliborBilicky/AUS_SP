@@ -30,17 +30,17 @@ char Settlement::getWater() { return water; }
 
 char Settlement::getGas() { return gas; }
 
-
-std::ostream &operator<<(std::ostream &os, const Settlement &settlement) {
-    os << settlement.getName() 
-       << " | " << settlement.getCode() 
-       << " | " << settlement.type 
-       << " | " << settlement.cadastralArea 
-	   << " | " << settlement.numOfResidents 
-	   << " | " << settlement.residentsUnder14 
-	   << " | " << settlement.residentsOver65
-	   << " | " << settlement.canalization 
-	   << " | " << settlement.water 
-	   << " | " << settlement.gas;
-	return os;
+void Settlement::print(ostream &os) const {
+	os << this->getName() 
+       << " | " << this->getCode() 
+       << " | " << this->type 
+       << " | " << this->cadastralArea 
+	   << " | " << this->numOfResidents 
+	   << " | " << this->residentsUnder14 
+	   << " | " << this->residentsOver65
+	   << " | " << this->canalization 
+	   << " | " << this->water 
+	   << " | " << this->gas;
 }
+
+

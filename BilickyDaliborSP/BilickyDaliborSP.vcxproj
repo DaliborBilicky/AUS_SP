@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Algorithms.cpp" />
     <ClCompile Include="src\Region.cpp" />
     <ClCompile Include="src\Settlement.cpp" />
     <ClCompile Include="src\Soorp.cpp" />
@@ -138,8 +139,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\CR.csv" />
+    <None Include="res\CR_win1250.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Algorithms.h" />
     <ClInclude Include="src\Region.h" />
     <ClInclude Include="src\Settlement.h" />
     <ClInclude Include="src\Soorp.h" />

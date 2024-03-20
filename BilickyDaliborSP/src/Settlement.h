@@ -30,6 +30,5 @@ class Settlement : public TerritorialUnit {
     char getWater();
     char getGas();
 
-    friend std::ostream &operator<<(std::ostream &os,
-                                    const Settlement &settlement);
+    virtual void print(ostream &os) const;
 };

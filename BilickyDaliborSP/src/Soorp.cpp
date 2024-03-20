@@ -7,6 +7,7 @@ Soorp::Soorp(string& name, int code) : TerritorialUnit(name, code) {}
 
 Soorp::~Soorp() {}
 
-std::ostream &operator<<(std::ostream &os, const Soorp &soorp) {
-    return os << soorp.getName() << " - " << soorp.getCode();
+void Soorp::print(ostream &os) const {
+    os << this->getName() << "(" << this->getCode() << ")";
 }
+

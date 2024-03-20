@@ -9,7 +9,6 @@ class Soorp : public TerritorialUnit {
     Soorp(string& name, int code);
     ~Soorp();
 
-    friend std::ostream &operator<<(std::ostream &os,
-                                    const Soorp &soorp);
+    virtual void print(ostream &os) const;
 };
 

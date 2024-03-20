@@ -30,9 +30,13 @@
     <ClCompile Include="src\Region.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Algorithms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\CR.csv" />
+    <None Include="res\CR_win1250.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TerritorialUnit.h">
@@ -45,6 +49,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Region.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

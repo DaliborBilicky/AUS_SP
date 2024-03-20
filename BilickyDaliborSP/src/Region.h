@@ -11,6 +11,5 @@ class Region : public TerritorialUnit {
     ~Region();
 	string getFullCode();
 
-    friend std::ostream &operator<<(std::ostream &os,
-                                    const Region &region);
+    virtual void print(ostream &os) const;
 };

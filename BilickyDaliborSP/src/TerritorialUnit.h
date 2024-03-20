@@ -16,6 +16,7 @@ class TerritorialUnit {
     const string &getName() const;
     const int& getCode() const;
     
-    friend std::ostream &operator<<(std::ostream &os,
+    friend ostream &operator<<(ostream &os,
                                     const TerritorialUnit &territorialUnit);
+    virtual void print(ostream &os) const;
 };

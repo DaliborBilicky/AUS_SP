@@ -87,6 +87,7 @@ namespace ds::amt {
 	using CIS = CyclicImplicitSequence<DataType>;
 
 	//----------
+
 	template<typename DataType>
     ImplicitSequence<DataType>::ImplicitSequence(size_t initialSize, bool initBlocks):
 		ImplicitAMS<DataType>(initialSize, initBlocks)
@@ -114,29 +115,30 @@ namespace ds::amt {
 	template<typename DataType>
 	typename ImplicitSequence<DataType>::BlockType* ImplicitSequence<DataType>::accessLast() const
     {
-            return this->size() > 0
-                       ? &this->getMemoryManager()->getBlockAt(this->size() - 1)
-                       : nullptr;
+        const size_t size = this->size();
+		return size > 0 ? &this->getMemoryManager()->getBlockAt(size - 1) : nullptr;
 	}
 
 	template<typename DataType>
 	typename ImplicitSequence<DataType>::BlockType* ImplicitSequence<DataType>::access(size_t index) const
     {
-		return index < this->size() ? &this->getMemoryManager()->getBlockAt(index) : nullptr;
+		return index < this->size() ? &this->getMemoryManager()->getBlockAt(index): nullptr;
 	}
 
 	template<typename DataType>
 	typename ImplicitSequence<DataType>::BlockType* ImplicitSequence<DataType>::accessNext(const BlockType& block) const
     {
-		size_t index = this->indexOfNext(this->getMemoryManager()->calculateIndex(block));
-		return index != INVALID_INDEX ? &this->getMemoryManager()->getBlockAt(index) : nullptr;		
+		MemoryManagerType* memManager = this->getMemoryManager();
+		const size_t index = this->indexOfNext(memManager->calculateIndex(block));
+		return index < this->size() ? &memManager->getBlockAt(index) : nullptr;
 	}
 
 	template<typename DataType>
 	typename ImplicitSequence<DataType>::BlockType* ImplicitSequence<DataType>::accessPrevious(const BlockType& block) const
     {
-		size_t index = this->indexOfPrevious(this->getMemoryManager()->calculateIndex(block));
-		return index != INVALID_INDEX ? &this->getMemoryManager()->getBlockAt(index) : nullptr;
+		MemoryManagerType* memManager = this->getMemoryManager();
+		const size_t index = this->indexOfPrevious(memManager->calculateIndex(block));
+		return index != INVALID_INDEX ? &memManager->getBlockAt(index) : nullptr;
 	}
 
 	template<typename DataType>
@@ -160,15 +162,16 @@ namespace ds::amt {
 	template<typename DataType>
 	typename ImplicitSequence<DataType>::BlockType& ImplicitSequence<DataType>::insertAfter(BlockType& block)
     {
-		size_t index = this->getMemoryManager()->calculateIndex(block) + 1;
-		return *this->getMemoryManager()->allocateMemoryAt(index);
+		MemoryManagerType* memManager = this->getMemoryManager();
+		return *memManager->allocateMemoryAt(memManager->calculateIndex(block) + 1);
 	}
 
 	template<typename DataType>
 	typename ImplicitSequence<DataType>::BlockType& ImplicitSequence<DataType>::insertBefore(BlockType& block)
     {
-		size_t index = this->getMemoryManager()->calculateIndex(block);
-		return *this->getMemoryManager()->allocateMemoryAt(index);
+		MemoryManagerType* memManager = this->getMemoryManager();
+		return *memManager->allocateMemoryAt(memManager->calculateIndex(block));
+
 	}
 
 	template<typename DataType>
@@ -192,33 +195,33 @@ namespace ds::amt {
 	template<typename DataType>
     void ImplicitSequence<DataType>::removeNext(const BlockType& block)
 	{
-		size_t index = this->indexOfNext(this->getMemoryManager()->calculateIndex(block));
-		this->getMemoryManager()->releaseMemoryAt(index);
+		MemoryManagerType* memManager = this->getMemoryManager();
+		memManager->releaseMemoryAt(this->indexOfNext(memManager->calculateIndex(block)));
 	}
 
 	template<typename DataType>
     void ImplicitSequence<DataType>::removePrevious(const BlockType& block)
 	{
-		size_t index = this->indexOfPrevious(this->getMemoryManager()->calculateIndex(block));
-		this->getMemoryManager()->releaseMemoryAt(index);
+		MemoryManagerType* memManager = this->getMemoryManager();
+		memManager->releaseMemoryAt(this->indexOfPrevious(memManager->calculateIndex(block)));
 	}
 
 	template<typename DataType>
     void ImplicitSequence<DataType>::reserveCapacity(size_t capacity)
 	{
-		this->getMemoryManager()->changeCapacity(capacity);
+	    this->getMemoryManager()->changeCapacity(capacity);
 	}
 
 	template<typename DataType>
     size_t ImplicitSequence<DataType>::indexOfNext(size_t currentIndex) const
 	{
-		return currentIndex + 1 < this->size() ? currentIndex + 1 : INVALID_INDEX;
+		return currentIndex >= this->size() - 1 ? INVALID_INDEX : currentIndex + 1;
 	}
 
 	template<typename DataType>
     size_t ImplicitSequence<DataType>::indexOfPrevious(size_t currentIndex) const
 	{
-		return currentIndex > 0 ? currentIndex - 1 : INVALID_INDEX;
+		return currentIndex <= 0 ? INVALID_INDEX : currentIndex - 1;
 	}
 
     template <typename DataType>
@@ -239,8 +242,8 @@ namespace ds::amt {
     template <typename DataType>
     typename ImplicitSequence<DataType>::ImplicitSequenceIterator& ImplicitSequence<DataType>::ImplicitSequenceIterator::operator++()
     {
-		++this->position_;
-		return *this;
+		++position_;
+	    return *this;
     }
 
     template <typename DataType>
@@ -254,7 +257,7 @@ namespace ds::amt {
     template <typename DataType>
     bool ImplicitSequence<DataType>::ImplicitSequenceIterator::operator==(const ImplicitSequenceIterator& other) const
     {
-		return this->sequence_ == other.sequence_ && this->position_ == other.position_;
+		return sequence_ == other.sequence_ && position_ == other.position_;
     }
 
     template <typename DataType>
@@ -266,7 +269,7 @@ namespace ds::amt {
     template <typename DataType>
     DataType& ImplicitSequence<DataType>::ImplicitSequenceIterator::operator*()
     {
-        return this->sequence_->access(this->position_)->data_;
+		return sequence_->access(position_)->data_;
     }
 
     template <typename DataType>
@@ -296,29 +299,15 @@ namespace ds::amt {
 	template<typename DataType>
     size_t CyclicImplicitSequence<DataType>::indexOfNext(size_t currentIndex) const
 	{
-            if (this->size() != 0) {
-                if (currentIndex >= this->size() - 1) {
-                    return 0;
-                } else {
-                    return currentIndex + 1;
-                }
-            } else {
-                return INVALID_INDEX;
-            }
+        const size_t size = this->size();
+		return size != 0 ? currentIndex >= size - 1 ? 0 : currentIndex + 1 : INVALID_INDEX;
 	}
 
 	template<typename DataType>
     size_t CyclicImplicitSequence<DataType>::indexOfPrevious(size_t currentIndex) const
 	{
-            if (this->size() != 0) {
-                if (currentIndex <= 0) {
-                    return this->size() - 1;
-                } else {
-                    return currentIndex - 1;
-                }
-            } else {
-                return INVALID_INDEX;
-            }
+        const size_t size = this->size();
+		return size != 0 ? currentIndex <= 0 ? size - 1 : currentIndex - 1 : INVALID_INDEX;
 	}
 
 }
