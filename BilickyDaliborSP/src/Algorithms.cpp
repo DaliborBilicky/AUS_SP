@@ -24,7 +24,6 @@ void Algorithms::parseCSV(string& path, vector<Settlement>& settlements,
 
 	ifs.open(path);
 	ifs.ignore(1);
-    cout << "Parsing file." << endl;
 	while (getline(ifs, line)) {
 		stringstream sStream(line);
 		string temp;
@@ -99,13 +98,19 @@ void Algorithms::parseCSV(string& path, vector<Settlement>& settlements,
 										 numOfRes, resU14, resO65, canal,
 										 water, gas));
 	}
-    cout << "Done." << endl;
 	ifs.close();
 }
 
 string& Algorithms::lowerCase(string &str) {
 	for (char &c : str) {
 		c = tolower(c, locale("Czech_Czechia.1250"));
+	}
+    return str;
+}
+
+string& Algorithms::upperCase(string &str) {
+	for (char &c : str) {
+		c = toupper(c, locale("Czech_Czechia.1250"));
 	}
     return str;
 }

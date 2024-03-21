@@ -20,6 +20,7 @@ class Algorithms {
 		vector<Soorp> &soorps, vector<Region> &regions);
 
     static string& lowerCase(string &str);
+    static string& upperCase(string &str);
 };
 
 template <typename IteratorT, typename Predicate, typename StructT>
@@ -32,3 +33,4 @@ void Algorithms::process(IteratorT begin, IteratorT end, Predicate predicate, St
     }
 
 }
+
