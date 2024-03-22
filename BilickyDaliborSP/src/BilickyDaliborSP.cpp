@@ -10,6 +10,7 @@
 #include "Settlement.h"
 #include "Soorp.h"
 #include "Region.h"
+#include "Menu.h"
 
 
 using namespace std;
@@ -41,29 +42,30 @@ int main(int argc, char *argv[]) {
 		}; 
 
         auto containsString = [&](TerritorialUnit unit) -> bool {
-            return unit.getName().find(wantedString) != string::npos;
+            int index = 0;
+            for (int i = 0; i < unit.getName().size() && index < wantedString.size(); i++) {
+                if (wantedString[index] == unit.getName()[i] 
+                    ||
+                    wantedStringUpper[index] == unit.getName()[i]) {
+                    index++;
+                } else {
+                    index = 0;
+                }
+            }
+            return index == wantedString.size();
         };
 
         Algorithms::parseCSV(path, settlements, soorps, regions);
 
         while (run) {
-            string option = "";
             results.clear();
-            cout << "[0] End program" << endl;
-            cout << "[1] Starts with string" << endl;
-            cout << "[2] Contains string" << endl;
-            cout << "> ";
-            getline(cin, option); 
-            if (option == "0") {
-                return 0;
-            } else if (option == "1") {
-				predicate = startsWithString;
-            } else if (option == "2") {
-				predicate = containsString;
-            } else {
-				cout << "Try again." << endl;
-				continue;
+            int option = Menu::mainMenu();
+            if (option == 0) {
+                break;
+            } else if (option == -1) {
+                continue;
             }
+            
 
             cout << "Enter string: ";
 			getline(cin, wantedString); 
