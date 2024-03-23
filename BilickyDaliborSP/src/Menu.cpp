@@ -2,65 +2,61 @@
 #include <iostream>
 #include "Menu.h"
 
-int Menu::mainMenu() {
+Menu::Menu() {}
+
+Menu::~Menu() {}
+
+void Menu::mainMenu() {
+	std::string input = "";
+
     std::cout << std::endl << "#####  Menu  #####" << std::endl;
-	std::string option = "";
 	std::cout << "[0] End program" << std::endl;
-	std::cout << "[1] Search in whole csv" << std::endl;
-	std::cout << "[2] Search only one type" << std::endl;
+	std::cout << "[1] Search in everything" << std::endl;
+	std::cout << "[2] Search in regions" << std::endl;
+	std::cout << "[3] Search in SOORPS" << std::endl;
+	std::cout << "[4] Search in Settlements" << std::endl;
 	std::cout << "> ";
-	std::getline(std::cin, option); 
-	if (option == "0") {
-        return 0;
-	} else if (option == "1") {
-        Menu::subMenu();
-	} else if (option == "2") {
-        Menu::typeMenu();
+
+	std::getline(std::cin, input); 
+
+	if (input == "0") {	
+		this->option = Options::EXIT;
+	} else if (input == "1") {
+        this->option = Options::EVERYTHING;
+	} else if (input == "2") {
+        this->option = Options::REGIONS;	
+	} else if (input == "3") {
+        this->option = Options::SOORPS;	
+	} else if (input == "4") {
+        this->option = Options::SETTLEMENTS;	
 	} else {
-		std::cout << "Try again." << std::endl;
-		return -1;		
+        this->option = Options::WRONG_INPUT;
 	}
+
 }
 
-int Menu::subMenu() {
-    std::cout << std::endl << "#####  Sub menu #####" << std::endl;
-	std::string option = "";
+Predicates Menu::subMenu() { 
+	std::string input = "";
+
+    std::cout << std::endl << "#####  Pick predicate #####" << std::endl;
 	std::cout << "[0] Go back" << std::endl;
 	std::cout << "[1] Starts with string" << std::endl;
 	std::cout << "[2] Contains string" << std::endl;
 	std::cout << "> ";
-	std::getline(std::cin, option); 
-	if (option == "0") {
-        return Menu::mainMenu();
-	} else if (option == "1") {
-		return 1;
-	} else if (option == "2") {
-		return 2;
+
+	std::getline(std::cin, input); 
+
+	if (input == "0") {	
+		this->option = Options::NONE;
+	} else if (input == "1") {
+		return Predicates::STARTS_WITH_STRING; 
+	} else if (input == "2") {
+		return Predicates::CONTAINS_STRING; 
 	} else {
 		std::cout << "Try again." << std::endl;
-		return -1;		
+        this->option = Options::WRONG_INPUT;
 	}
+    return Predicates::NOTHING;
 }
 
-int Menu::typeMenu() {
-    std::cout << std::endl << "#####  Type menu  #####" << std::endl;
-	std::string option = "";
-	std::cout << "[0] Go back" << std::endl;
-	std::cout << "[1] Regions" << std::endl;
-	std::cout << "[2] SOORPS" << std::endl;
-	std::cout << "[3] Settlements" << std::endl;
-	std::cout << "> ";
-	std::getline(std::cin, option); 
-	if (option == "0") {
-        return Menu::mainMenu();
-	} else if (option == "1") {
-		return 1;
-	} else if (option == "2") {
-		return 2;
-	} else if (option == "3") {
-		return 3;
-	} else {
-		std::cout << "Try again." << std::endl;
-		return -1;		
-	}
-}
+int Menu::getOption() { return this->option; }

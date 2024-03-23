@@ -1,10 +1,28 @@
 #pragma once
 
+enum Predicates {
+	NOTHING,
+	STARTS_WITH_STRING,
+	CONTAINS_STRING
+};
+
+enum Options {
+	NONE,
+	EXIT,
+	EVERYTHING,
+	REGIONS,
+	SOORPS,
+	SETTLEMENTS,
+	WRONG_INPUT
+};
+
 class Menu {
   private:
-    bool wholeCSV = false;
+    Options option = Options::NONE; 
   public:
-    static int mainMenu();
-    static int subMenu();
-    static int typeMenu();
+    Menu();
+    ~Menu();
+    void mainMenu();
+    Predicates subMenu();
+    int getOption();
 };
