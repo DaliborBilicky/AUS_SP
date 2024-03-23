@@ -1,116 +1,108 @@
+#include "algorithms.h"
+#include "units/region.h"
+#include "units/settlement.h"
+#include "units/soorp.h"
 #include <fstream>
-#include <vector>
-#include <sstream>
-#include <functional>
 #include <locale>
-#include "Algorithms.h"
-#include "TerritorialUnit.h"
-#include "Settlement.h"
-#include "Soorp.h"
-#include "Region.h"
+#include <sstream>
+#include <vector>
 
+void Algorithms::parseCSV(std::string &path,
+                          std::vector<Settlement> &settlements,
+                          std::vector<Soorp> &soorps,
+                          std::vector<Region> &regions) {
 
-using namespace std;
+    std::ifstream ifs;
+    std::string line = "";
 
-Algorithms::Algorithms() {}
+    ifs.open(path);
+    ifs.ignore(1);
+    while (std::getline(ifs, line)) {
+        std::stringstream sStream(line);
+        std::string temp;
+        std::string name;
+        std::string type;
+        int code = 0;
 
-Algorithms::~Algorithms() {}
+        if (line.substr(0, 2) == ";;") {
+            std::getline(sStream, temp, ';');
+            std::getline(sStream, temp, ';');
 
-void Algorithms::parseCSV(string& path, vector<Settlement>& settlements, 
-			  vector<Soorp>& soorps, vector<Region>& regions) {
+            std::getline(sStream, name, ';');
 
-	ifstream ifs;
-	string line = "";
+            std::getline(ifs, line);
+            sStream = std::stringstream(line);
 
-	ifs.open(path);
-	ifs.ignore(1);
-	while (getline(ifs, line)) {
-		stringstream sStream(line);
-		string temp;
-		string name;
-		string type;
-		int code = 0;
+            std::getline(sStream, temp, ';');
+            code = std::atoi(temp.substr(2).c_str());
+            regions.push_back(Region(name, code));
+            sStream = std::stringstream(line);
+        }
 
-		if (line.substr(0, 2) == ";;") {
-			std::getline(sStream, temp, ';');
-			std::getline(sStream, temp, ';');
+        std::getline(sStream, temp, ';');
 
-			getline(sStream, name, ';');
+        std::getline(sStream, temp, ';');
+        code = std::atoi(temp.c_str());
 
-			getline(ifs, line);
-			sStream = stringstream(line);
+        std::getline(sStream, name, ';');
 
-			getline(sStream, temp, ';');
-			code = atoi(temp.substr(2).c_str());
-			regions.push_back(Region(name, code));
-			sStream = stringstream(line);
-		}
+        std::getline(sStream, temp, ';'); // poradove cislo
+        int num = std::atoi(temp.c_str());
+        if (num == 1) {
+            soorps.push_back(Soorp(name, code));
+        }
 
-		getline(sStream, temp, ';');
+        std::getline(sStream, name, ';');
 
-		getline(sStream, temp, ';');
-		code = atoi(temp.c_str());
+        std::getline(sStream, temp, ';');
+        code = std::atoi(temp.c_str());
 
-		getline(sStream, name, ';');
+        std::getline(sStream, type, ';');
 
-		getline(sStream, temp, ';'); //poradove cislo 
-		int num = atoi(temp.c_str());
-		if (num == 1) {
-			soorps.push_back(Soorp(name, code));
-		}
+        std::getline(sStream, temp, ';');
+        std::getline(sStream, temp, ';');
 
-		getline(sStream, name, ';');
+        std::getline(sStream, temp, ';');
+        temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
+        int cadaArea = std::atoi(temp.c_str());
 
-		getline(sStream, temp, ';');
-		code = atoi(temp.c_str());
+        std::getline(sStream, temp, ';');
+        temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
+        int numOfRes = std::atoi(temp.c_str());
 
-		getline(sStream, type, ';');
+        std::getline(sStream, temp, ';');
+        temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
+        int resU14 = std::atoi(temp.c_str());
 
-		getline(sStream, temp, ';');
-		getline(sStream, temp, ';');
-		
-		getline(sStream, temp, ';');
-		temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
-		int cadaArea = atoi(temp.c_str());
+        std::getline(sStream, temp, ';');
+        temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
+        int resO65 = std::atoi(temp.c_str());
 
-		getline(sStream, temp, ';');
-		temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
-		int numOfRes = atoi(temp.c_str());
-		
-		getline(sStream, temp, ';');
-		temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
-		int resU14 = atoi(temp.c_str());
+        std::getline(sStream, temp, ';');
+        char canal = temp[0];
 
-		getline(sStream, temp, ';');
-		temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
-		int resO65 = atoi(temp.c_str());
+        std::getline(sStream, temp, ';');
+        char water = temp[0];
 
-		getline(sStream, temp, ';');
-		char canal = temp[0];
+        std::getline(sStream, temp, ';');
+        char gas = temp[0];
 
-		getline(sStream, temp, ';');
-		char water = temp[0];
-
-		getline(sStream, temp, ';');
-		char gas = temp[0];
-
-		settlements.push_back(Settlement(name, code, type, cadaArea,
-										 numOfRes, resU14, resO65, canal,
-										 water, gas));
-	}
-	ifs.close();
+        settlements.push_back(Settlement(name, code, type, cadaArea, numOfRes,
+                                         resU14, resO65, canal, water, gas));
+    }
+    ifs.close();
 }
 
-string& Algorithms::lowerCase(string &str) {
-	for (char &c : str) {
-		c = tolower(c, locale("Czech_Czechia.1250"));
-	}
+std::string &Algorithms::lowerCase(std::string &str) {
+    for (char &c : str) {
+        c = std::tolower(c, std::locale("Czech_Czechia.1250"));
+    }
     return str;
 }
 
-string& Algorithms::upperCase(string &str) {
-	for (char &c : str) {
-		c = toupper(c, locale("Czech_Czechia.1250"));
-	}
+std::string &Algorithms::upperCase(std::string &str) {
+    for (char &c : str) {
+        c = std::toupper(c, std::locale("Czech_Czechia.1250"));
+    }
     return str;
 }

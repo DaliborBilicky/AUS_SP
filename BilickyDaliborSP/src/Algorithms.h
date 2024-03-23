@@ -1,36 +1,33 @@
 #pragma once
-#include <vector>
+#include "units/region.h"
+#include "units/settlement.h"
+#include "units/soorp.h"
+#include "units/territorial_unit.h"
 #include <functional>
-#include "TerritorialUnit.h"
-#include "Settlement.h"
-#include "Soorp.h"
-#include "Region.h"
-
-using namespace std;
+#include <vector>
 
 class Algorithms {
   public:
-    Algorithms();
-    ~Algorithms();
-
     template <typename IteratorT, typename Predicate, typename StructT>
-    static void process(IteratorT begin, IteratorT end, Predicate predicate, StructT &results);
+    static void process(IteratorT begin, IteratorT end, Predicate predicate,
+                        StructT &results);
 
-	static void parseCSV(string &path, vector<Settlement> &settlements,
-		vector<Soorp> &soorps, vector<Region> &regions);
+    static void parseCSV(std::string &path,
+                         std::vector<Settlement> &settlements,
+                         std::vector<Soorp> &soorps,
+                         std::vector<Region> &regions);
 
-    static string& lowerCase(string &str);
-    static string& upperCase(string &str);
+    static std::string &lowerCase(std::string &str);
+    static std::string &upperCase(std::string &str);
 };
 
 template <typename IteratorT, typename Predicate, typename StructT>
-void Algorithms::process(IteratorT begin, IteratorT end, Predicate predicate, StructT &results) {
-	while (begin != end) {
-		if (predicate(*begin)) {
+void Algorithms::process(IteratorT begin, IteratorT end, Predicate predicate,
+                         StructT &results) {
+    while (begin != end) {
+        if (predicate(*begin)) {
             results.emplace_back(&(*begin));
-		}
+        }
         ++begin;
     }
-
 }
-

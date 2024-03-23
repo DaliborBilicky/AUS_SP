@@ -15,25 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BilickyDaliborSP.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TerritorialUnit.cpp">
+    <ClCompile Include="src\units\territorial_unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Settlement.cpp">
+    <ClCompile Include="src\units\settlement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Soorp.cpp">
+    <ClCompile Include="src\units\soorp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Region.cpp">
+    <ClCompile Include="src\units\region.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Algorithms.cpp">
+    <ClCompile Include="src\algorithms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Menu.cpp">
+    <ClCompile Include="src\menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,22 +42,22 @@
     <None Include="res\CR_win1250.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\TerritorialUnit.h">
+    <ClInclude Include="src\units\territorial_unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Settlement.h">
+    <ClInclude Include="src\units\settlement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Soorp.h">
+    <ClInclude Include="src\units\soorp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Region.h">
+    <ClInclude Include="src\units\region.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Algorithms.h">
+    <ClInclude Include="src\algorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Menu.h">
+    <ClInclude Include="src\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

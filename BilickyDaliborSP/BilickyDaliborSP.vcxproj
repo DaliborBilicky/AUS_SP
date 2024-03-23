@@ -130,25 +130,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Menu.cpp" />
-    <ClCompile Include="src\Algorithms.cpp" />
-    <ClCompile Include="src\Region.cpp" />
-    <ClCompile Include="src\Settlement.cpp" />
-    <ClCompile Include="src\Soorp.cpp" />
-    <ClCompile Include="src\BilickyDaliborSP.cpp" />
-    <ClCompile Include="src\TerritorialUnit.cpp" />
+    <ClCompile Include="src\menu.cpp" />
+    <ClCompile Include="src\algorithms.cpp" />
+    <ClCompile Include="src\units\region.cpp" />
+    <ClCompile Include="src\units\settlement.cpp" />
+    <ClCompile Include="src\units\soorp.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\units\territorial_unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\CR.csv" />
     <None Include="res\CR_win1250.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Menu.h" />
-    <ClInclude Include="src\Algorithms.h" />
-    <ClInclude Include="src\Region.h" />
-    <ClInclude Include="src\Settlement.h" />
-    <ClInclude Include="src\Soorp.h" />
-    <ClInclude Include="src\TerritorialUnit.h" />
+    <ClInclude Include="src\menu.h" />
+    <ClInclude Include="src\algorithms.h" />
+    <ClInclude Include="src\units\region.h" />
+    <ClInclude Include="src\units\settlement.h" />
+    <ClInclude Include="src\units\soorp.h" />
+    <ClInclude Include="src\units\territorial_unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
