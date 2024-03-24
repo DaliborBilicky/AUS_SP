@@ -4,6 +4,7 @@
 #include "units/settlement.h"
 #include "units/soorp.h"
 #include "units/territorial_unit.h"
+#include <chrono>
 #include <crtdbg.h>
 #include <functional>
 #include <iostream>
@@ -51,7 +52,13 @@ int main(int argc, char *argv[]) {
             return index == wantedString.size();
         };
 
+        auto start = std::chrono::high_resolution_clock::now();
         Algorithms::parseCSV(path, settlements, soorps, regions);
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> duration = end - start;
+
+        std::cout << "* Parsing CSV took: " << duration.count() * 1000 << "ms"
+                  << std::endl;
 
         while (run) {
             results.clear();
@@ -80,12 +87,13 @@ int main(int argc, char *argv[]) {
                 break;
             }
 
-            std::cout << "Enter string: ";
+            std::cout << "* Enter string: ";
             std::getline(std::cin, wantedString);
             Algorithms::lowerCase(wantedString);
             wantedStringUpper = wantedString;
             Algorithms::upperCase(wantedStringUpper);
 
+            start = std::chrono::high_resolution_clock::now();
             if (menu.getOption() == Options::EVERYTHING ||
                 menu.getOption() == Options::REGIONS) {
                 Algorithms::process(regions.begin(), regions.end(), predicate,
@@ -104,15 +112,22 @@ int main(int argc, char *argv[]) {
                                     predicate, results);
             }
 
+            end = std::chrono::high_resolution_clock::now();
+            duration = end - start;
+
             if (results.size() == 0) {
                 std::cout << std::endl
                           << "* There is nothing with this option."
                           << std::endl;
             } else {
-                std::cout << std::endl << "##### Output #####" << std::endl;
-                std::cout << "Number of results: " << results.size()
+                std::cout << std::endl
+                          << "##### Output #####" << std::endl
+                          << "* Searching in data took: "
+                          << duration.count() * 1000 << "ms" << std::endl
+                          << "* Number of results: " << results.size()
                           << std::endl
                           << std::endl;
+
                 for (int i = 0; i < results.size(); i++) {
                     std::cout << *(results[i]) << std::endl;
                 }
