@@ -48,7 +48,7 @@ void Algorithms::parseCSV(std::string &path,
 
         std::getline(sStream, temp, ';'); // poradove cislo
         int num = std::atoi(temp.c_str());
-        if (num == 1) {
+        if (num == 1 || temp == "x") {
             soorps.push_back(Soorp(name, code));
         }
 

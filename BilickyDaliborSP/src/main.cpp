@@ -39,15 +39,15 @@ int main(int argc, char *argv[]) {
 
         auto containsString = [&](TerritorialUnit unit) -> bool {
             int index = 0;
-            for (int i = 0;
-                 i < unit.getName().size() && index < wantedString.size();
-                 i++) {
+            int i = 0;
+            while (i < unit.getName().size() && index < wantedString.size()) {
                 if (wantedString[index] == unit.getName()[i] ||
                     wantedStringUpper[index] == unit.getName()[i]) {
                     index++;
                 } else {
                     index = 0;
                 }
+                i++;
             }
             return index == wantedString.size();
         };
@@ -94,17 +94,6 @@ int main(int argc, char *argv[]) {
             Algorithms::upperCase(wantedStringUpper);
 
             start = std::chrono::high_resolution_clock::now();
-            if (menu.getOption() == Options::EVERYTHING ||
-                menu.getOption() == Options::REGIONS) {
-                Algorithms::process(regions.begin(), regions.end(), predicate,
-                                    results);
-            }
-
-            if (menu.getOption() == Options::EVERYTHING ||
-                menu.getOption() == Options::SOORPS) {
-                Algorithms::process(soorps.begin(), soorps.end(), predicate,
-                                    results);
-            }
 
             if (menu.getOption() == Options::EVERYTHING ||
                 menu.getOption() == Options::SETTLEMENTS) {

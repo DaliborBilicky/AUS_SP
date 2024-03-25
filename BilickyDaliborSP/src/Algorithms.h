@@ -26,7 +26,7 @@ template <typename IteratorT, typename PredicateT, typename StructT>
 void Algorithms::process(IteratorT begin, IteratorT end,
                          std::function<bool(PredicateT)> predicate,
                          StructT &results) {
-    while (begin != end) {
+    while (begin != end) { // for(; begin != end; ++begin) {}
         if (predicate(*begin)) {
             results.emplace_back(&(*begin));
         }
