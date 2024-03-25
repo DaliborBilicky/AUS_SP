@@ -8,8 +8,9 @@
 
 class Algorithms {
   public:
-    template <typename IteratorT, typename Predicate, typename StructT>
-    static void process(IteratorT begin, IteratorT end, Predicate predicate,
+    template <typename IteratorT, typename PredicateT, typename StructT>
+    static void process(IteratorT begin, IteratorT end,
+                        std::function<bool(PredicateT)> predicate,
                         StructT &results);
 
     static void parseCSV(std::string &path,
@@ -21,8 +22,9 @@ class Algorithms {
     static std::string &upperCase(std::string &str);
 };
 
-template <typename IteratorT, typename Predicate, typename StructT>
-void Algorithms::process(IteratorT begin, IteratorT end, Predicate predicate,
+template <typename IteratorT, typename PredicateT, typename StructT>
+void Algorithms::process(IteratorT begin, IteratorT end,
+                         std::function<bool(PredicateT)> predicate,
                          StructT &results) {
     while (begin != end) {
         if (predicate(*begin)) {
