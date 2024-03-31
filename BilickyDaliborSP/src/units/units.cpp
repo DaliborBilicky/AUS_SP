@@ -3,7 +3,8 @@
 
 Region::Region() {}
 
-Region::Region(std::string &name, int code) : TerritorialUnit(name, code) {}
+Region::Region(std::string &name, int code) 
+    : TerritorialUnit(name, code) {}
 
 Region::~Region() {}
 
@@ -11,9 +12,7 @@ std::string Region::getFullCode() {
     return "CZ0" + std::to_string(this->getCode()); }
 
 void Region::print(std::ostream &os) const {
-    os << this->getUnitType() 
-       << " " 
-       << this->getName() 
+    os << this->getName() 
        << " - CZ0"
        << this->getCode();
 }
@@ -22,13 +21,13 @@ void Region::print(std::ostream &os) const {
 
 Soorp::Soorp() {}
 
-Soorp::Soorp(std::string &name, int code) : TerritorialUnit(name, code) {}
+Soorp::Soorp(std::string &name, int code) 
+    : TerritorialUnit(name, code) {}
 
 Soorp::~Soorp() {}
 
 void Soorp::print(std::ostream &os) const {
-    os << this->getUnitType() << " " << this->getName() << " - "
-       << this->getCode();
+    os << this->getName() << " - " << this->getCode();
 }
 
 
@@ -63,7 +62,7 @@ char Settlement::getWater() { return water; }
 char Settlement::getGas() { return gas; }
 
 void Settlement::print(std::ostream &os) const {
-    os << this->getUnitType() << ", " << this->getName() << ", " << this->getCode()
+    os << this->getName() << ", " << this->getCode()
        << ", " << this->type
        << ", " << this->cadastralArea << ", " << this->numOfResidents << ", "
        << this->residentsUnder14 << ", " << this->residentsOver65 << ", "

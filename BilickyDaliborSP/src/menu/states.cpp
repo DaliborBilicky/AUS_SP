@@ -45,6 +45,7 @@ TypeMenu::TypeMenu(CurrentState *currentState)
 TypeMenu::~TypeMenu() {}
 
 void TypeMenu::show() {
+    this->exiting = false;
     std::cout << this->TITLE << this->INFO;
     std::cout << "  [\033[93m0\033[0m] - Go back\n"
               << "  [\033[93m1\033[0m] - Type region\n"
@@ -54,22 +55,17 @@ void TypeMenu::show() {
     switch (option) {
         case 0:
             this->currentState->setState(State::MAIN_MENU);     
-            break;
-        case 1:
-            this->pickedType = TerrUnitType::REGION;
-            break;
-        case 2:
-            this->pickedType = TerrUnitType::SOORP;
-            break;
-        case 3:
-            this->pickedType = TerrUnitType::SETTLEMENT;
+            this->exiting = true;
             break;
 		default:
+            this->option = option;
 			break;
     }
 }
 
-TerrUnitType TypeMenu::getPickedType() { return this->pickedType; }
+int TypeMenu::getOption() { return this->option; }
+
+bool TypeMenu::isExiting() { return this->exiting; }
 
 
 // HierarchyMenu class ------------------------------------------------------
@@ -107,6 +103,7 @@ ContainsStringMenu::ContainsStringMenu(CurrentState* currentState)
 ContainsStringMenu::~ContainsStringMenu() {}
 
 void ContainsStringMenu::show() {
+    this->exiting = false;
     std::cout << this->TITLE << this->INFO;
 	std::cout << "  [\033[92m0\033[0m] - Go back\n"
 			  << "  [\033[92m1\033[0m] - Write string\n";
@@ -114,6 +111,7 @@ void ContainsStringMenu::show() {
     switch (option) {
         case 0:
             this->currentState->setState(State::MAIN_MENU);     
+            this->exiting = true;
             break;
         case 1:
             this->searchedString = Prompt::getStringInput();
@@ -123,6 +121,12 @@ void ContainsStringMenu::show() {
     }
 }
 
+std::string &ContainsStringMenu::getSearchedString() {
+    return this->searchedString;
+}
+
+bool ContainsStringMenu::isExiting() { return this->exiting; }
+
 
 // StringMenu class ------------------------------------------------------
 StartsWithStrMenu::StartsWithStrMenu(CurrentState *currentState) 
@@ -131,6 +135,7 @@ StartsWithStrMenu::StartsWithStrMenu(CurrentState *currentState)
 StartsWithStrMenu::~StartsWithStrMenu() {}
 
 void StartsWithStrMenu::show() {
+    this->exiting = false;
     std::cout << this->TITLE << this->INFO;
     std::cout << "  [\033[96m0\033[0m] - Go back\n"
               << "  [\033[96m1\033[0m] - Write string\n";
@@ -138,6 +143,7 @@ void StartsWithStrMenu::show() {
     switch (option) {
     case 0:
         this->currentState->setState(State::MAIN_MENU);
+        this->exiting = true;
         break;
     case 1:
         this->searchedString = Prompt::getStringInput();
@@ -146,3 +152,9 @@ void StartsWithStrMenu::show() {
         break;
     }
 }
+
+std::string &StartsWithStrMenu::getSearchedString() {
+    return this->searchedString;
+}
+
+bool StartsWithStrMenu::isExiting() { return this->exiting; }

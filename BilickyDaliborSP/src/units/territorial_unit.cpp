@@ -4,7 +4,7 @@
 TerritorialUnit::TerritorialUnit() {}
 
 TerritorialUnit::TerritorialUnit(std::string &name, int code) 
-    : name(name), code(code), unitType(TerrUnitType::NONE) {}
+    : name(name), code(code) {}
 
 TerritorialUnit::~TerritorialUnit() {}
 
@@ -12,7 +12,6 @@ const std::string &TerritorialUnit::getName() const { return this->name; }
 
 const int TerritorialUnit::getCode() const { return this->code; }
 
-const TerrUnitType TerritorialUnit::getUnitType() const { return this->unitType; }
 
 void TerritorialUnit::print(std::ostream &os) const {
     os << this->name << " - " << this->code;

@@ -34,14 +34,16 @@ class TypeMenu {
     const std::string TITLE = "\n[\033[93mTYPE MENU\033[0m]\n";
     const std::string INFO = " \033[93m*\033[0m Choose what type of territorial unit you want to print.\n";
     CurrentState* currentState;
-    TerrUnitType pickedType = TerrUnitType::NONE;
+    int option = 0;
+    bool exiting = false;
 
   public:
     TypeMenu(CurrentState* currentState);
     ~TypeMenu();
 
     void show();
-    TerrUnitType getPickedType();
+    int getOption();
+    bool isExiting();
 };
 
 class ContainsStringMenu {
@@ -50,12 +52,15 @@ class ContainsStringMenu {
     const std::string INFO = " \033[92m*\033[0m Choose what units will print base on containing string.\n";
     CurrentState* currentState;
     std::string searchedString = "";
+    bool exiting = false;
 
   public:
     ContainsStringMenu(CurrentState* currentState);
     ~ContainsStringMenu();
 
     void show();
+    std::string &getSearchedString();
+    bool isExiting();
 };
 
 class StartsWithStrMenu {
@@ -64,10 +69,13 @@ class StartsWithStrMenu {
     const std::string INFO = " \033[96m*\033[0m Choose what units will print base on string it starts with.\n";
     CurrentState* currentState;
     std::string searchedString = "";
+    bool exiting = false;
 
   public:
     StartsWithStrMenu(CurrentState* currentState);
     ~StartsWithStrMenu();
 
     void show();
+    std::string &getSearchedString();
+    bool isExiting();
 };

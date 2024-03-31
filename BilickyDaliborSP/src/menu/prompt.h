@@ -3,6 +3,6 @@
 
 class Prompt {
   public:
-    static std::string& getStringInput();
+    static std::string getStringInput();
     static int getInput(int upperBound); 
 };

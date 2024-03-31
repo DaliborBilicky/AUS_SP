@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\app.cpp" />
     <ClCompile Include="src\menu\states.cpp" />
     <ClCompile Include="src\menu\prompt.cpp" />
     <ClCompile Include="src\menu\current_state.cpp" />
@@ -142,6 +143,7 @@
     <None Include="res\CR_win1250.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\app.h" />
     <ClInclude Include="src\menu\states.h" />
     <ClInclude Include="src\menu\prompt.h" />
     <ClInclude Include="src\menu\current_state.h" />

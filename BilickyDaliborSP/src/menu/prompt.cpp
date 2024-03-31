@@ -4,7 +4,7 @@
 #include <sstream>
 
 
-std::string& Prompt::getStringInput() { 
+std::string Prompt::getStringInput() { 
     std::string input = "";
     std::cout << "Input string: ";
     std::getline(std::cin, input);

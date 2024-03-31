@@ -25,7 +25,7 @@ void Algorithms::process(IteratorT begin, IteratorT end,
                          std::function<bool(PredicateParam)> predicate,
                          StructT &results) {
     while (begin != end) {
-        if (predicate(*begin)) {
+        if (predicate(&(*begin))) {
             results.emplace_back(&(*begin));
         }
         ++begin;
