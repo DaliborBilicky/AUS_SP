@@ -1,16 +1,13 @@
 #pragma once
-#include "units/region.h"
-#include "units/settlement.h"
-#include "units/soorp.h"
-#include "units/territorial_unit.h"
+#include "units/units.h"
 #include <functional>
 #include <vector>
 
 class Algorithms {
   public:
-    template <typename IteratorT, typename PredicateT, typename StructT>
+    template <typename IteratorT, typename PredicateParam, typename StructT>
     static void process(IteratorT begin, IteratorT end,
-                        std::function<bool(PredicateT)> predicate,
+                        std::function<bool(PredicateParam)> predicate,
                         StructT &results);
 
     static void parseCSV(std::string &path,
@@ -22,11 +19,11 @@ class Algorithms {
     static std::string &upperCase(std::string &str);
 };
 
-template <typename IteratorT, typename PredicateT, typename StructT>
+template <typename IteratorT, typename PredicateParam, typename StructT>
 void Algorithms::process(IteratorT begin, IteratorT end,
-                         std::function<bool(PredicateT)> predicate,
+                         std::function<bool(PredicateParam)> predicate,
                          StructT &results) {
-    while (begin != end) { // for(; begin != end; ++begin) {}
+    while (begin != end) {
         if (predicate(*begin)) {
             results.emplace_back(&(*begin));
         }

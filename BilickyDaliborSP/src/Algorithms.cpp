@@ -1,7 +1,5 @@
 #include "algorithms.h"
-#include "units/region.h"
-#include "units/settlement.h"
-#include "units/soorp.h"
+#include "units/units.h"
 #include <fstream>
 #include <locale>
 #include <sstream>
@@ -48,7 +46,7 @@ void Algorithms::parseCSV(std::string &path,
 
         std::getline(sStream, temp, ';'); // poradove cislo
         int num = std::atoi(temp.c_str());
-        if (num == 1 || temp == "x") {
+        if (num == 1) {
             soorps.push_back(Soorp(name, code));
         }
 

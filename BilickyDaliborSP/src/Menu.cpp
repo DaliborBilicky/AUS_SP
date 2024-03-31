@@ -1,4 +1,10 @@
 #include "menu.h"
+#include "units/territorial_unit.h"
+#include "units/settlement.h"
+#include "units/region.h"
+#include "units/soorp.h"
+#include "algorithms.h"
+#include <functional>
 #include <iostream>
 #include <string>
 
@@ -9,8 +15,56 @@ Menu::~Menu() {}
 void Menu::mainMenu() {
     std::string input = "";
 
-    std::cout << std::endl << "#####  Menu  #####" << std::endl;
+    std::cout << std::endl << "#####  Pick predicate #####" << std::endl;
     std::cout << "[0] End program" << std::endl;
+    std::cout << "[1] Starts with string" << std::endl;
+    std::cout << "[2] Contains string" << std::endl;
+    std::cout << "[3] Is type" << std::endl;
+    std::cout << "> ";
+
+    std::getline(std::cin, input);
+
+    if (input == "0") {
+    } else if (input == "1") {
+    } else if (input == "2") {
+    } else if (input == "3") {
+        this->inputType = InputType::NUM_INPUT;
+    } else {
+        std::cout << std::endl << "* Try again." << std::endl;
+        this->currentState = State::MAIN_MENU;
+    }
+}
+
+void Menu::takeInput() { 
+    if (this->inputType == InputType::STRING_INPUT) {
+		std::cout << "* Enter string you want to search: ";
+		std::getline(std::cin, this->wantedString);
+		Algorithms::lowerCase(this->wantedString);
+		this->wantedStringUpper = this->wantedString;
+		Algorithms::upperCase(this->wantedStringUpper);
+    } else if (this->inputType == InputType::NUM_INPUT) {
+        std::string input = "";
+
+		std::cout << "[1] Region" << std::endl;
+		std::cout << "[2] SOORP" << std::endl;
+		std::cout << "[3] Settlement" << std::endl;
+		std::cout << "> ";
+
+        std::getline(std::cin, input);
+
+        this->typePick = std::atoi(input.c_str()); 
+    } else {
+        std::cout << std::endl << "* Try again." << std::endl;
+        this->currentState = State::SUB_MENU;
+        this->inputType = InputType::NONE;
+    }
+}
+
+void Menu::subMenu() {
+    std::string input = "";
+
+    std::cout << std::endl << "#####  Pick where to search  #####" << std::endl;
+    std::cout << "[0] Go back" << std::endl;
     std::cout << "[1] Search in everything" << std::endl;
     std::cout << "[2] Search in regions" << std::endl;
     std::cout << "[3] Search in SOORPS" << std::endl;
@@ -20,42 +74,34 @@ void Menu::mainMenu() {
     std::getline(std::cin, input);
 
     if (input == "0") {
-        this->option = Options::EXIT;
+        this->currentState = State::MAIN_MENU;
     } else if (input == "1") {
-        this->option = Options::EVERYTHING;
+        this->inputType = InputType::SEARCH_EVERYTHING;
     } else if (input == "2") {
-        this->option = Options::REGIONS;
+        this->inputType = InputType::SEARCH_REGION;
     } else if (input == "3") {
-        this->option = Options::SOORPS;
+        this->inputType = InputType::SEARCH_SOORP;
     } else if (input == "4") {
-        this->option = Options::SETTLEMENTS;
-    } else {
-        this->option = Options::WRONG_INPUT;
-    }
-}
-
-Predicates Menu::subMenu() {
-    std::string input = "";
-
-    std::cout << std::endl << "#####  Pick predicate #####" << std::endl;
-    std::cout << "[0] Go back" << std::endl;
-    std::cout << "[1] Starts with string" << std::endl;
-    std::cout << "[2] Contains string" << std::endl;
-    std::cout << "> ";
-
-    std::getline(std::cin, input);
-
-    if (input == "0") {
-        this->option = Options::NONE;
-    } else if (input == "1") {
-        return Predicates::STARTS_WITH_STRING;
-    } else if (input == "2") {
-        return Predicates::CONTAINS_STRING;
+        this->inputType = InputType::SEARCH_SETTLEMENT;
     } else {
         std::cout << std::endl << "* Try again." << std::endl;
-        this->option = Options::WRONG_INPUT;
+        this->currentState = State::SUB_MENU;
+        return;
     }
-    return Predicates::NOTHING;
+    this->currentState = State::MAIN_MENU;
+    this->inputType = InputType::STRING_INPUT;
 }
 
-int Menu::getOption() { return this->option; }
+State Menu::getCurrentState() { return this->currentState; }
+
+InputType Menu::getInputType() { 
+    if (this->inputType != InputType::NUM_INPUT &&
+        this->inputType != InputType::STRING_INPUT) {
+        return this->inputType;
+    }
+    return InputType::NONE;
+}
+
+std::function<bool(TerritorialUnit)>& Menu::getPredicate() {
+    return this->predicate;
+}
