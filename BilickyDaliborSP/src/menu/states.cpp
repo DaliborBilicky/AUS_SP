@@ -1,10 +1,9 @@
 #include "menu/states.h"
 #include "menu/prompt.h"
-
+#include <iostream>
 
 // MainMenu class ------------------------------------------------------
-MainMenu::MainMenu(CurrentState* currentState) 
-    : currentState(currentState) {}
+MainMenu::MainMenu(CurrentState *currentState) : currentState(currentState) {}
 
 MainMenu::~MainMenu() {}
 
@@ -16,31 +15,29 @@ void MainMenu::show() {
               << "  [\033[95m3\033[0m] - Contains string\n"
               << "  [\033[95m4\033[0m] - Is specific territorial type\n";
     int option = Prompt::getInput(4);
-    switch (option) { 
-        case 0:
-            this->currentState->setState(State::EXIT);
-            break;
-        case 1:
-            this->currentState->setState(State::HIERARCHY_MENU);
-            break;
-        case 2:
-            this->currentState->setState(State::STARTS_WITH_STR_MENU);
-            break;
-        case 3:
-            this->currentState->setState(State::CONTAINS_STR_MENU);
-            break;
-        case 4:
-            this->currentState->setState(State::TYPE_MENU);
-            break;
-        default:
-            break;
+    switch (option) {
+    case 0:
+        this->currentState->setState(State::EXIT);
+        break;
+    case 1:
+        this->currentState->setState(State::HIERARCHY_MENU);
+        break;
+    case 2:
+        this->currentState->setState(State::STARTS_WITH_STR_MENU);
+        break;
+    case 3:
+        this->currentState->setState(State::CONTAINS_STR_MENU);
+        break;
+    case 4:
+        this->currentState->setState(State::TYPE_MENU);
+        break;
+    default:
+        break;
     }
 }
 
-
 // IsTypeMenu class ------------------------------------------------------
-TypeMenu::TypeMenu(CurrentState *currentState)
-	: currentState(currentState) {}
+TypeMenu::TypeMenu(CurrentState *currentState) : currentState(currentState) {}
 
 TypeMenu::~TypeMenu() {}
 
@@ -53,13 +50,13 @@ void TypeMenu::show() {
               << "  [\033[93m3\033[0m] - Type settlement\n";
     int option = Prompt::getInput(3);
     switch (option) {
-        case 0:
-            this->currentState->setState(State::MAIN_MENU);     
-            this->exiting = true;
-            break;
-		default:
-            this->option = option;
-			break;
+    case 0:
+        this->currentState->setState(State::MAIN_MENU);
+        this->exiting = true;
+        break;
+    default:
+        this->option = option;
+        break;
     }
 }
 
@@ -67,10 +64,9 @@ int TypeMenu::getOption() { return this->option; }
 
 bool TypeMenu::isExiting() { return this->exiting; }
 
-
 // HierarchyMenu class ------------------------------------------------------
 HierarchyMenu::HierarchyMenu(CurrentState *currentState)
-	: currentState(currentState) {}
+    : currentState(currentState) {}
 
 HierarchyMenu::~HierarchyMenu() {}
 
@@ -81,43 +77,42 @@ void HierarchyMenu::show() {
               << "  [\033[94m2\033[0m] - Down in hierarchy\n";
     int option = Prompt::getInput(2);
     switch (option) {
-        case 0:
-            this->currentState->setState(State::MAIN_MENU);     
-            break;
-        case 1:
-            std::cout << "Up in hierarchy" << std::endl;
-            break;
-        case 2:
-            std::cout << "Down in hierarchy" << std::endl;
-            break;
-		default:
-			break;
+    case 0:
+        this->currentState->setState(State::MAIN_MENU);
+        break;
+    case 1:
+        std::cout << "Up in hierarchy" << std::endl;
+        break;
+    case 2:
+        std::cout << "Down in hierarchy" << std::endl;
+        break;
+    default:
+        break;
     }
 }
 
-
 // StringMenu class ------------------------------------------------------
-ContainsStringMenu::ContainsStringMenu(CurrentState* currentState)
-	: currentState(currentState) {}
+ContainsStringMenu::ContainsStringMenu(CurrentState *currentState)
+    : currentState(currentState) {}
 
 ContainsStringMenu::~ContainsStringMenu() {}
 
 void ContainsStringMenu::show() {
     this->exiting = false;
     std::cout << this->TITLE << this->INFO;
-	std::cout << "  [\033[92m0\033[0m] - Go back\n"
-			  << "  [\033[92m1\033[0m] - Write string\n";
+    std::cout << "  [\033[92m0\033[0m] - Go back\n"
+              << "  [\033[92m1\033[0m] - Write string\n";
     int option = Prompt::getInput(1);
     switch (option) {
-        case 0:
-            this->currentState->setState(State::MAIN_MENU);     
-            this->exiting = true;
-            break;
-        case 1:
-            this->searchedString = Prompt::getStringInput();
-            break;
-		default:
-			break;
+    case 0:
+        this->currentState->setState(State::MAIN_MENU);
+        this->exiting = true;
+        break;
+    case 1:
+        this->searchedString = Prompt::getStringInput();
+        break;
+    default:
+        break;
     }
 }
 
@@ -127,9 +122,8 @@ std::string &ContainsStringMenu::getSearchedString() {
 
 bool ContainsStringMenu::isExiting() { return this->exiting; }
 
-
 // StringMenu class ------------------------------------------------------
-StartsWithStrMenu::StartsWithStrMenu(CurrentState *currentState) 
+StartsWithStrMenu::StartsWithStrMenu(CurrentState *currentState)
     : currentState(currentState) {}
 
 StartsWithStrMenu::~StartsWithStrMenu() {}

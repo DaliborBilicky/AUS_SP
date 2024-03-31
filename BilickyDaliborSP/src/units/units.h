@@ -12,8 +12,6 @@ class Region : public TerritorialUnit {
     virtual void print(std::ostream &os) const;
 };
 
-
-
 class Soorp : public TerritorialUnit {
   public:
     Soorp();
@@ -22,8 +20,6 @@ class Soorp : public TerritorialUnit {
 
     virtual void print(std::ostream &os) const;
 };
-
-
 
 class Settlement : public TerritorialUnit {
   private:

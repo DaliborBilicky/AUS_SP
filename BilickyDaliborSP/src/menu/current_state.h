@@ -18,5 +18,4 @@ class CurrentState {
 
     State getState();
     void setState(State state);
-
 };

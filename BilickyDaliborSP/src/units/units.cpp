@@ -1,28 +1,24 @@
 #include "units/units.h"
-#include <string>
 
+// Region class ----------------------------------------------------
 Region::Region() {}
 
-Region::Region(std::string &name, int code) 
-    : TerritorialUnit(name, code) {}
+Region::Region(std::string &name, int code) : TerritorialUnit(name, code) {}
 
 Region::~Region() {}
 
-std::string Region::getFullCode() { 
-    return "CZ0" + std::to_string(this->getCode()); }
-
-void Region::print(std::ostream &os) const {
-    os << this->getName() 
-       << " - CZ0"
-       << this->getCode();
+std::string Region::getFullCode() {
+    return "CZ0" + std::to_string(this->getCode());
 }
 
+void Region::print(std::ostream &os) const {
+    os << this->getName() << " - CZ0" << this->getCode();
+}
 
-
+// Soorp class ----------------------------------------------------
 Soorp::Soorp() {}
 
-Soorp::Soorp(std::string &name, int code) 
-    : TerritorialUnit(name, code) {}
+Soorp::Soorp(std::string &name, int code) : TerritorialUnit(name, code) {}
 
 Soorp::~Soorp() {}
 
@@ -30,8 +26,7 @@ void Soorp::print(std::ostream &os) const {
     os << this->getName() << " - " << this->getCode();
 }
 
-
-
+// Settlement class ----------------------------------------------------
 Settlement::Settlement() {}
 
 Settlement::Settlement(std::string &name, int code, std::string &type,
@@ -62,8 +57,7 @@ char Settlement::getWater() { return water; }
 char Settlement::getGas() { return gas; }
 
 void Settlement::print(std::ostream &os) const {
-    os << this->getName() << ", " << this->getCode()
-       << ", " << this->type
+    os << this->getName() << ", " << this->getCode() << ", " << this->type
        << ", " << this->cadastralArea << ", " << this->numOfResidents << ", "
        << this->residentsUnder14 << ", " << this->residentsOver65 << ", "
        << this->canalization << ", " << this->water << ", " << this->gas;
