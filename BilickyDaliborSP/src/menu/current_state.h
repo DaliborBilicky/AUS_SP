@@ -10,7 +10,8 @@ enum State {
 
 class CurrentState {
   private:
-    State state = MAIN_MENU;
+    State state = State::MAIN_MENU;
+
   public:
     CurrentState();
     ~CurrentState();

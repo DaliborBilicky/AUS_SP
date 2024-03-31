@@ -3,37 +3,34 @@
 
 
 // MainMenu class ------------------------------------------------------
-MainMenu::MainMenu() {}
-
-MainMenu::MainMenu(CurrentState currentState) 
+MainMenu::MainMenu(CurrentState* currentState) 
     : currentState(currentState) {}
 
 MainMenu::~MainMenu() {}
 
 void MainMenu::show() {
-    std::cout << "\033[33m" << this->TITLE << "\033[0m" << std::endl;
-    std::cout << " " << this->INFO << std::endl << std::endl;
-    std::cout << "  [0] - Exit program" << std::endl;
-    std::cout << "  [1] - Move in hierarchy" << std::endl;
-    std::cout << "  [2] - Starts with string" << std::endl;
-    std::cout << "  [3] - Contains string" << std::endl;
-    std::cout << "  [4] - Is specific territorial type" << std::endl;
+    std::cout << this->TITLE << this->INFO;
+    std::cout << "  [\033[95m0\033[0m] - Exit program\n"
+              << "  [\033[95m1\033[0m] - Move in hierarchy\n"
+              << "  [\033[95m2\033[0m] - Starts with string\n"
+              << "  [\033[95m3\033[0m] - Contains string\n"
+              << "  [\033[95m4\033[0m] - Is specific territorial type\n";
     int option = Prompt::getInput(4);
     switch (option) { 
         case 0:
-            this->currentState.setState(State::EXIT);
+            this->currentState->setState(State::EXIT);
             break;
         case 1:
-            this->currentState.setState(State::HIERARCHY_MENU);
+            this->currentState->setState(State::HIERARCHY_MENU);
             break;
         case 2:
-            this->currentState.setState(State::STARTS_WITH_STR_MENU);
+            this->currentState->setState(State::STARTS_WITH_STR_MENU);
             break;
         case 3:
-            this->currentState.setState(State::CONTAINS_STR_MENU);
+            this->currentState->setState(State::CONTAINS_STR_MENU);
             break;
         case 4:
-            this->currentState.setState(State::TYPE_MENU);
+            this->currentState->setState(State::TYPE_MENU);
             break;
         default:
             break;
@@ -42,24 +39,21 @@ void MainMenu::show() {
 
 
 // IsTypeMenu class ------------------------------------------------------
-TypeMenu::TypeMenu() {}
-
-TypeMenu::TypeMenu(CurrentState currentState) 
+TypeMenu::TypeMenu(CurrentState *currentState)
 	: currentState(currentState) {}
 
 TypeMenu::~TypeMenu() {}
 
 void TypeMenu::show() {
-    std::cout << "\033[33m" << this->TITLE << "\033[0m" << std::endl;
-    std::cout << " " << this->INFO << std::endl;
-    std::cout << "  [0] - Go back" << std::endl;
-    std::cout << "  [1] - Type region" << std::endl;
-    std::cout << "  [2] - Type SOORP" << std::endl;
-    std::cout << "  [3] - Type settlement" << std::endl;
+    std::cout << this->TITLE << this->INFO;
+    std::cout << "  [\033[93m0\033[0m] - Go back\n"
+              << "  [\033[93m1\033[0m] - Type region\n"
+              << "  [\033[93m2\033[0m] - Type SOORP\n"
+              << "  [\033[93m3\033[0m] - Type settlement\n";
     int option = Prompt::getInput(3);
     switch (option) {
         case 0:
-            this->currentState.setState(State::MAIN_MENU);     
+            this->currentState->setState(State::MAIN_MENU);     
             break;
         case 1:
             this->pickedType = TerrUnitType::REGION;
@@ -79,22 +73,20 @@ TerrUnitType TypeMenu::getPickedType() { return this->pickedType; }
 
 
 // HierarchyMenu class ------------------------------------------------------
-HierarchyMenu::HierarchyMenu() {}
-
-HierarchyMenu::HierarchyMenu(CurrentState currentState) {}
+HierarchyMenu::HierarchyMenu(CurrentState *currentState)
+	: currentState(currentState) {}
 
 HierarchyMenu::~HierarchyMenu() {}
 
 void HierarchyMenu::show() {
-    std::cout << "\033[33m" << this->TITLE << "\033[0m" << std::endl;
-    std::cout << " " << this->INFO << std::endl;
-    std::cout << "  [0] - Go back" << std::endl;
-    std::cout << "  [1] - Up in hierarchy" << std::endl;
-    std::cout << "  [2] - Down in hierarchy" << std::endl;
+    std::cout << this->TITLE << this->INFO;
+    std::cout << "  [\033[94m0\033[0m] - Go back\n"
+              << "  [\033[94m1\033[0m] - Up in hierarchy\n"
+              << "  [\033[94m2\033[0m] - Down in hierarchy\n";
     int option = Prompt::getInput(2);
     switch (option) {
         case 0:
-            this->currentState.setState(State::MAIN_MENU);     
+            this->currentState->setState(State::MAIN_MENU);     
             break;
         case 1:
             std::cout << "Up in hierarchy" << std::endl;
@@ -109,26 +101,48 @@ void HierarchyMenu::show() {
 
 
 // StringMenu class ------------------------------------------------------
-StringMenu::StringMenu() {}
+ContainsStringMenu::ContainsStringMenu(CurrentState* currentState)
+	: currentState(currentState) {}
 
-StringMenu::StringMenu(CurrentState currentState) {}
+ContainsStringMenu::~ContainsStringMenu() {}
 
-StringMenu::~StringMenu() {}
-
-void StringMenu::show() {
-    std::cout << "\033[33m" << this->TITLE << "\033[0m" << std::endl;
-    std::cout << " " << this->INFO << std::endl;
-    std::cout << "  [0] - Go back" << std::endl;
-    std::cout << "  [1] - Write string" << std::endl;
+void ContainsStringMenu::show() {
+    std::cout << this->TITLE << this->INFO;
+	std::cout << "  [\033[92m0\033[0m] - Go back\n"
+			  << "  [\033[92m1\033[0m] - Write string\n";
     int option = Prompt::getInput(1);
     switch (option) {
         case 0:
-            this->currentState.setState(State::MAIN_MENU);     
+            this->currentState->setState(State::MAIN_MENU);     
             break;
         case 1:
             this->searchedString = Prompt::getStringInput();
             break;
 		default:
 			break;
+    }
+}
+
+
+// StringMenu class ------------------------------------------------------
+StartsWithStrMenu::StartsWithStrMenu(CurrentState *currentState) 
+    : currentState(currentState) {}
+
+StartsWithStrMenu::~StartsWithStrMenu() {}
+
+void StartsWithStrMenu::show() {
+    std::cout << this->TITLE << this->INFO;
+    std::cout << "  [\033[96m0\033[0m] - Go back\n"
+              << "  [\033[96m1\033[0m] - Write string\n";
+    int option = Prompt::getInput(1);
+    switch (option) {
+    case 0:
+        this->currentState->setState(State::MAIN_MENU);
+        break;
+    case 1:
+        this->searchedString = Prompt::getStringInput();
+        break;
+    default:
+        break;
     }
 }

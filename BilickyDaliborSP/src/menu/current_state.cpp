@@ -1,3 +1,4 @@
+#include <iostream>
 #include "current_state.h"
 
 CurrentState::CurrentState() {}

@@ -16,15 +16,21 @@ int main(int argc, char *argv[]) {
     SetConsoleCP(1250);
     SetConsoleOutputCP(1250);
     {
+        std::string path = "./res/CR_win1250.csv";
+
         std::vector<TerritorialUnit *> results;
         std::vector<Settlement> settlements;
         std::vector<Soorp> soorps;
         std::vector<Region> regions;
-        std::string path = "./res/CR_win1250.csv";
-        bool run = true;
+
         CurrentState currentState;
-        MainMenu mainMenu(currentState);
-        TypeMenu isTypeMenu(currentState);
+        MainMenu mainMenu(&currentState);
+        TypeMenu typeMenu(&currentState);
+        HierarchyMenu hierarchyMenu(&currentState);
+        ContainsStringMenu containsStringMenu(&currentState);
+        StartsWithStrMenu startsWithStrMenu(&currentState); 
+
+        bool run = true;
         std::string wantedString = "";
         std::string wantedStringUpper = "";
 
@@ -76,31 +82,6 @@ int main(int argc, char *argv[]) {
         std::cout << "* Parsing CSV took: " << duration.count() * 1000 << "ms"
                   << std::endl;
 
-		results.clear();
-
-		start = std::chrono::high_resolution_clock::now();
-
-		end = std::chrono::high_resolution_clock::now();
-		duration = end - start;
-
-		if (results.size() == 0) {
-			std::cout << std::endl
-					  << "* There is nothing with this option."
-					  << std::endl;
-		} else {
-			std::cout << std::endl
-					  << "##### Output #####" << std::endl
-					  << "* Searching in data took: "
-					  << duration.count() * 1000 << "ms" << std::endl
-					  << "* Number of results: " << results.size()
-					  << std::endl
-					  << std::endl;
-
-			for (int i = 0; i < results.size(); i++) {
-				std::cout << *(results[i]) << std::endl;
-			}
-		}
-
 		while (run) {
 			switch (currentState.getState()) {
 			case State::EXIT:
@@ -109,17 +90,46 @@ int main(int argc, char *argv[]) {
 			case State::MAIN_MENU:
 				mainMenu.show();
 				break;
-			case State::TYPE_MENU:
-				isTypeMenu.show();
-				break;
+            case State::HIERARCHY_MENU:
+                hierarchyMenu.show();
+                break;
 			case State::STARTS_WITH_STR_MENU:
+                startsWithStrMenu.show();
 				break;
 			case State::CONTAINS_STR_MENU:
+                containsStringMenu.show();
+				break;
+			case State::TYPE_MENU:
+				typeMenu.show();
 				break;
 			default:
 				break;
 			}
 		}
+
+		 //start = std::chrono::high_resolution_clock::now();
+ //
+		 //end = std::chrono::high_resolution_clock::now();
+		 //duration = end - start;
+ //
+		 //if (results.size() == 0) {
+			 //std::cout << std::endl
+					   //<< "* There is nothing with this option."
+					   //<< std::endl;
+		 //} else {
+			 //std::cout << std::endl
+					   //<< "##### Output #####" << std::endl
+					   //<< "* Searching in data took: "
+					   //<< duration.count() * 1000 << "ms" << std::endl
+					   //<< "* Number of results: " << results.size()
+					   //<< std::endl
+					   //<< std::endl;
+ //
+			 //for (int i = 0; i < results.size(); i++) {
+				 //std::cout << *(results[i]) << std::endl;
+			 //}
+		 //}
+
     }
     _CrtDumpMemoryLeaks();
     return 0;

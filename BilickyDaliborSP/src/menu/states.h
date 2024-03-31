@@ -5,13 +5,12 @@
 
 class MainMenu {
   private:
-    const std::string TITLE = "***** Main menu *****";
-    const std::string INFO = "* Choose predicate to print specific territorial unit.";
-    CurrentState currentState;
+    const std::string TITLE = "\n[\033[95mMAIN MENU\033[0m]\n";
+    const std::string INFO = " \033[95m*\033[0m Choose predicate to print specific territorial unit.\n";
+    CurrentState* currentState;
 
   public:
-    MainMenu();
-    MainMenu(CurrentState currentState);
+    MainMenu(CurrentState *currentState);
     ~MainMenu();
 
     void show();
@@ -19,13 +18,12 @@ class MainMenu {
 
 class HierarchyMenu {
   private:
-    const std::string TITLE = "***** Hierarchy menu *****";
-    const std::string INFO = "* Choose if you want to go up or down in hierarchy.";
-    CurrentState currentState;
+    const std::string TITLE = "\n[\033[94mHIERARCHY MENU\033[0m]\n";
+    const std::string INFO = " \033[94m*\033[0m Choose if you want to go up or down in hierarchy.\n";
+    CurrentState* currentState;
 
   public:
-    HierarchyMenu();
-    HierarchyMenu(CurrentState currentState);
+    HierarchyMenu(CurrentState* currentState);
     ~HierarchyMenu();
 
     void show();
@@ -33,32 +31,43 @@ class HierarchyMenu {
 
 class TypeMenu {
   private:
-    const std::string TITLE = "***** Is type menu *****";
-    const std::string INFO = "* Choose what type of territorial unit you want to print.";
-    CurrentState currentState;
+    const std::string TITLE = "\n[\033[93mTYPE MENU\033[0m]\n";
+    const std::string INFO = " \033[93m*\033[0m Choose what type of territorial unit you want to print.\n";
+    CurrentState* currentState;
     TerrUnitType pickedType = TerrUnitType::NONE;
 
   public:
-    TypeMenu();
-    TypeMenu(CurrentState currentState);
+    TypeMenu(CurrentState* currentState);
     ~TypeMenu();
 
     void show();
     TerrUnitType getPickedType();
 };
 
-
-class StringMenu {
+class ContainsStringMenu {
   private:
-    const std::string TITLE = "***** Contains string menu *****";
-    const std::string INFO = "* Choose what units will print base on containing string.";
-    CurrentState currentState;
+    const std::string TITLE = "\n[\033[92mCONTAINS STRING MENU\033[0m]\n";
+    const std::string INFO = " \033[92m*\033[0m Choose what units will print base on containing string.\n";
+    CurrentState* currentState;
     std::string searchedString = "";
 
   public:
-    StringMenu();
-    StringMenu(CurrentState currentState);
-    ~StringMenu();
+    ContainsStringMenu(CurrentState* currentState);
+    ~ContainsStringMenu();
+
+    void show();
+};
+
+class StartsWithStrMenu {
+  private:
+    const std::string TITLE = "\n[\033[96mSTARTS WITH STRING MENU\033[0m]\n";
+    const std::string INFO = " \033[96m*\033[0m Choose what units will print base on string it starts with.\n";
+    CurrentState* currentState;
+    std::string searchedString = "";
+
+  public:
+    StartsWithStrMenu(CurrentState* currentState);
+    ~StartsWithStrMenu();
 
     void show();
 };

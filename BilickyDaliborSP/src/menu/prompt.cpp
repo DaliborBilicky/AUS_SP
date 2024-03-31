@@ -26,14 +26,14 @@ int Prompt::getInput(int upperBound) {
 				wrongInput = false;
 				return intInput;
 			}
-			std::cout << "\033[31m"
-					  << "Wrong input! Try numbers from options."
-					  << "\033[0m"
+			std::cout << "[\033[31mWRONG INPUT"
+					  << "\033[0m]\n"
+                      << " \033[31m*\033[0m Number out of range."
 					  << std::endl;
 		} else {
-			std::cout << "\033[31m"
-					  << "Wrong input! Try again."
-					  << "\033[0m"
+			std::cout << "[\033[31mWRONG INPUT"
+					  << "\033[0m]\n"
+                      << " \033[31m*\033[0m Not a number."
 					  << std::endl;
 		} 
     }
