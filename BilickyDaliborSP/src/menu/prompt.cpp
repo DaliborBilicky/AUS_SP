@@ -18,6 +18,9 @@ int Prompt::getInput(int upperBound) {
     while (wrongInput) {
         std::cout << "> ";
         std::getline(std::cin, input);
+        if (input[0] == '0') {
+            return 0;
+        }
         std::stringstream sStream(input);
 
         if (sStream >> intInput) {
@@ -34,4 +37,5 @@ int Prompt::getInput(int upperBound) {
                       << " \033[31m*\033[0m Not a number." << std::endl;
         }
     }
+    return 0;
 }

@@ -1,4 +1,5 @@
 #include "units/units.h"
+#include <string>
 
 // Region class ----------------------------------------------------
 Region::Region() {}

@@ -6,8 +6,8 @@
 #include "units/units.h"
 #include <functional>
 #include <iostream>
+#include <libds/amt/implicit_sequence.h>
 #include <string>
-#include <vector>
 
 App::App()
     : mainMenu(MainMenu(&currentState)), typeMenu(TypeMenu(&currentState)),
@@ -140,7 +140,7 @@ void App::printOutput() {
                   << std::endl;
 
         for (int i = 0; i < results.size(); i++) {
-            std::cout << *(results[i]) << std::endl;
+            std::cout << *(results.access(i)->data_) << std::endl;
         }
     }
 }

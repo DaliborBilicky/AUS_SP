@@ -1,15 +1,15 @@
 #pragma once
 #include "menu/states.h"
 #include "units/units.h"
+#include <libds/amt/implicit_sequence.h>
 #include <string>
-#include <vector>
 
 class App {
   private:
-    std::vector<TerritorialUnit *> results;
-    std::vector<Settlement> settlements;
-    std::vector<Soorp> soorps;
-    std::vector<Region> regions;
+    ds::amt::ImplicitSequence<TerritorialUnit *> results;
+    ds::amt::ImplicitSequence<Settlement> settlements;
+    ds::amt::ImplicitSequence<Soorp> soorps;
+    ds::amt::ImplicitSequence<Region> regions;
     CurrentState currentState;
     MainMenu mainMenu;
     TypeMenu typeMenu;

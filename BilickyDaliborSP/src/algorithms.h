@@ -2,7 +2,7 @@
 #include "units/territorial_unit.h"
 #include "units/units.h"
 #include <functional>
-#include <vector>
+#include <libds/amt/implicit_sequence.h>
 
 class Algorithms {
   public:
@@ -12,9 +12,9 @@ class Algorithms {
                         StructT &results);
 
     static void parseCSV(std::string &path,
-                         std::vector<Settlement> &settlements,
-                         std::vector<Soorp> &soorps,
-                         std::vector<Region> &regions);
+                         ds::amt::ImplicitSequence<Settlement> &settlements,
+                         ds::amt::ImplicitSequence<Soorp> &soorps,
+                         ds::amt::ImplicitSequence<Region> &regions);
 
     static std::string &lowerCase(std::string &str);
     static std::string &upperCase(std::string &str);
@@ -26,7 +26,8 @@ void Algorithms::process(IteratorT begin, IteratorT end,
                          StructT &results) {
     while (begin != end) {
         if (predicate(&(*begin))) {
-            results.emplace_back(&(*begin));
+            // results.emplace_back(&(*begin));
+            results.insertLast().data_ = &(*begin);
         }
         ++begin;
     }

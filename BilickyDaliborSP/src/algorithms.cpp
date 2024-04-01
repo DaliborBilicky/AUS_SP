@@ -1,14 +1,14 @@
 #include "algorithms.h"
 #include "units/units.h"
 #include <fstream>
+#include <libds/amt/implicit_sequence.h>
 #include <locale>
 #include <sstream>
-#include <vector>
 
 void Algorithms::parseCSV(std::string &path,
-                          std::vector<Settlement> &settlements,
-                          std::vector<Soorp> &soorps,
-                          std::vector<Region> &regions) {
+                          ds::amt::ImplicitSequence<Settlement> &settlements,
+                          ds::amt::ImplicitSequence<Soorp> &soorps,
+                          ds::amt::ImplicitSequence<Region> &regions) {
 
     std::ifstream ifs;
     std::string line = "";
@@ -33,7 +33,8 @@ void Algorithms::parseCSV(std::string &path,
 
             std::getline(sStream, temp, ';');
             code = std::atoi(temp.substr(2).c_str());
-            regions.push_back(Region(name, code));
+            Region region(name, code);
+            regions.insertLast().data_ = region;
             sStream = std::stringstream(line);
         }
 
@@ -47,7 +48,8 @@ void Algorithms::parseCSV(std::string &path,
         std::getline(sStream, temp, ';'); // poradove cislo
         int num = std::atoi(temp.c_str());
         if (num == 1) {
-            soorps.push_back(Soorp(name, code));
+            Soorp soorp(name, code);
+            soorps.insertLast().data_ = soorp;
         }
 
         std::getline(sStream, name, ';');
@@ -84,9 +86,9 @@ void Algorithms::parseCSV(std::string &path,
 
         std::getline(sStream, temp, ';');
         char gas = temp[0];
-
-        settlements.push_back(Settlement(name, code, type, cadaArea, numOfRes,
-                                         resU14, resO65, canal, water, gas));
+        Settlement settlement(name, code, type, cadaArea, numOfRes, resU14,
+                              resO65, canal, water, gas);
+        settlements.insertLast().data_ = settlement;
     }
     ifs.close();
 }
