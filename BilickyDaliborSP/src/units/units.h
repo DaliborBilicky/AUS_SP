@@ -9,7 +9,7 @@ class Region : public TerritorialUnit {
     ~Region();
     std::string getFullCode();
 
-    virtual void print(std::ostream &os) const;
+    void print(std::ostream &os) const override;
 };
 
 class Soorp : public TerritorialUnit {
@@ -18,7 +18,7 @@ class Soorp : public TerritorialUnit {
     Soorp(std::string &name, int code);
     ~Soorp();
 
-    virtual void print(std::ostream &os) const;
+    void print(std::ostream &os) const override;
 };
 
 class Settlement : public TerritorialUnit {
@@ -47,5 +47,5 @@ class Settlement : public TerritorialUnit {
     char getWater();
     char getGas();
 
-    virtual void print(std::ostream &os) const;
+    void print(std::ostream &os) const override;
 };

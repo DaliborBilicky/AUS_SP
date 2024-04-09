@@ -79,6 +79,8 @@ void App::processStartsWithString(std::string &searchedString) {
             return true;
         };
 
+    Algorithms::process(this->regions.begin(), this->regions.end(),
+                        predicate, this->results);
     Algorithms::process(this->settlements.begin(), this->settlements.end(),
                         predicate, this->results);
 }
