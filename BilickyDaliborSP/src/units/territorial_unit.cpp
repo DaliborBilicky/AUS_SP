@@ -14,11 +14,15 @@ const std::string &TerritorialUnit::getName() const { return this->name; }
 const int TerritorialUnit::getCode() const { return this->code; }
 
 void TerritorialUnit::print(std::ostream &os) const {
-    os << this->name << " - " << this->code;
+    os << this->name;
 }
 
 std::ostream &operator<<(std::ostream &os,
                          const TerritorialUnit &territorialUnit) {
     territorialUnit.print(os);
     return os;
+}
+
+bool operator==(const TerritorialUnit &me, const TerritorialUnit &other) {
+    return me.code == other.code && me.name == other.name;
 }

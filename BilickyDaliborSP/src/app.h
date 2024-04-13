@@ -2,6 +2,7 @@
 #include "menu/states.h"
 #include "units/units.h"
 #include <libds/amt/implicit_sequence.h>
+#include <libds/amt/explicit_hierarchy.h>
 #include <string>
 
 class App {
@@ -10,6 +11,7 @@ class App {
     ds::amt::ImplicitSequence<Settlement> settlements;
     ds::amt::ImplicitSequence<Soorp> soorps;
     ds::amt::ImplicitSequence<Region> regions;
+    ds::amt::MultiWayExplicitHierarchy<TerritorialUnit*> czechia;
     CurrentState currentState;
     MainMenu mainMenu;
     TypeMenu typeMenu;

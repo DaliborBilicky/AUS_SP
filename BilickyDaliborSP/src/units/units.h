@@ -2,6 +2,7 @@
 #include "units/territorial_unit.h"
 #include <iostream>
 
+
 class Region : public TerritorialUnit {
   public:
     Region();

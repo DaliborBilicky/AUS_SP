@@ -7,20 +7,31 @@
 #include <functional>
 #include <iostream>
 #include <libds/amt/implicit_sequence.h>
+#include <libds/amt/explicit_hierarchy.h>
 #include <string>
 
 App::App()
     : mainMenu(MainMenu(&currentState)), typeMenu(TypeMenu(&currentState)),
       hierarchyMenu(HierarchyMenu(&currentState)),
       containsStringMenu(ContainsStringMenu(&currentState)),
-      startsWithStrMenu(StartsWithStrMenu(&currentState)) {}
+      startsWithStrMenu(StartsWithStrMenu(&currentState)) {
+    std::string name = "ÈESKÁ REPUBLIKA";
+	TerritorialUnit *cr = new TerritorialUnit(name, 0);
+	this->czechia.emplaceRoot();
+	czechia.accessRoot()->data_ = cr;
+}
 
-App::~App() {}
+App::~App() {
+    this->czechia.processPostOrder(czechia.accessRoot(), 
+        [&](ds::amt::MultiWayExplicitHierarchyBlock<TerritorialUnit*> *block) { 
+            delete block->data_;
+            block->data_ = nullptr;
+        });
+}
 
 void App::start() {
-    std::string csv_path = "./res/CR_win1250.csv";
-    Algorithms::parseCSV(csv_path, this->settlements, this->soorps,
-                         this->regions);
+    // Algorithms::parseCSV(csv_path, this->settlements, this->soorps, this->regions);
+    Algorithms::parseCSV("./res/CR_win1250.csv", this->czechia);
 }
 
 void App::mainLoop() {
@@ -79,9 +90,7 @@ void App::processStartsWithString(std::string &searchedString) {
             return true;
         };
 
-    Algorithms::process(this->regions.begin(), this->regions.end(),
-                        predicate, this->results);
-    Algorithms::process(this->settlements.begin(), this->settlements.end(),
+    Algorithms::process(this->czechia.begin(), this->czechia.end(),
                         predicate, this->results);
 }
 
@@ -105,7 +114,7 @@ void App::processContainsString(std::string &searchedString) {
             return index == strLover.size();
         };
 
-    Algorithms::process(this->settlements.begin(), this->settlements.end(),
+    Algorithms::process(this->czechia.begin(), this->czechia.end(),
                         predicate, this->results);
 }
 
@@ -123,10 +132,7 @@ void App::processIsType(int wantedType) {
             return false;
         };
 
-    Algorithms::process(this->regions.begin(), this->regions.end(), predicate,
-                        this->results);
-
-    Algorithms::process(this->soorps.begin(), this->soorps.end(), predicate,
+    Algorithms::process(this->czechia.begin(), this->czechia.end(), predicate,
                         this->results);
 }
 

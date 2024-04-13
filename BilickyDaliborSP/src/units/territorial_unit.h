@@ -12,8 +12,9 @@ class TerritorialUnit {
     ~TerritorialUnit();
     const std::string &getName() const;
     const int getCode() const;
+    virtual void print(std::ostream &os) const;
 
     friend std::ostream &operator<<(std::ostream &os,
                                     const TerritorialUnit &territorialUnit);
-    virtual void print(std::ostream &os) const;
+    friend bool operator==(const TerritorialUnit &me, const TerritorialUnit &other);
 };
