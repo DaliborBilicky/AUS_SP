@@ -4,6 +4,7 @@
 #include <libds/amt/implicit_sequence.h>
 #include <locale>
 #include <sstream>
+#include <libds/heap_monitor.h>
 
 void Algorithms::parseCSV(const std::string &path,
                           ds::amt::ImplicitSequence<Settlement> &settlements,
@@ -127,8 +128,7 @@ void Algorithms::parseCSV(const std::string &path,
 
             soorpCounter = -1;
             regionCounter++;
-			czechia.emplaceSon(*root, regionCounter);
-			czechia.accessSon(*root, regionCounter)->data_ = region;
+			czechia.emplaceSon(*root, regionCounter).data_ = region;
 
             sStream = std::stringstream(line);
         }
@@ -148,8 +148,7 @@ void Algorithms::parseCSV(const std::string &path,
             settlementCounter = -1;
             soorpCounter++;
             auto* region = czechia.accessSon(*root, regionCounter);
-            czechia.emplaceSon(*region, soorpCounter);
-            czechia.accessSon(*region, soorpCounter)->data_ = soorp;
+            czechia.emplaceSon(*region, soorpCounter).data_ = soorp;
         }
 
         std::getline(sStream, name, ';');
@@ -193,8 +192,7 @@ void Algorithms::parseCSV(const std::string &path,
 		 settlementCounter++;
 		 auto* region = czechia.accessSon(*root, regionCounter);
 	     auto* soorp = czechia.accessSon(*region, soorpCounter);
-         czechia.emplaceSon(*soorp, settlementCounter);
-		 czechia.accessSon(*soorp, settlementCounter)->data_ = settlement;
+         czechia.emplaceSon(*soorp, settlementCounter).data_ = settlement;
     }
     ifs.close();
 }

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <libds/heap_monitor.h>
 
 std::string Prompt::getStringInput() {
     std::string input = "";

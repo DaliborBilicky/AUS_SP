@@ -1,8 +1,9 @@
 #pragma once
+#include <libds/heap_monitor.h>
 enum State {
     EXIT,
     MAIN_MENU,
-    HIERARCHY_MENU,
+    MANUAL_ITERATOR_MENU,
     STARTS_WITH_STR_MENU,
     CONTAINS_STR_MENU,
     TYPE_MENU

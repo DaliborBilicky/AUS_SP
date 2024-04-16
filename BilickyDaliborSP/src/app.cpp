@@ -4,6 +4,7 @@
 #include "menu/states.h"
 #include "units/territorial_unit.h"
 #include "units/units.h"
+#include "manual_iterator.h"
 #include <functional>
 #include <iostream>
 #include <libds/amt/implicit_sequence.h>
@@ -12,21 +13,21 @@
 
 App::App()
     : mainMenu(MainMenu(&currentState)), typeMenu(TypeMenu(&currentState)),
-      hierarchyMenu(HierarchyMenu(&currentState)),
+      mItMenu(ManualIteratorMenu(&currentState)),
       containsStringMenu(ContainsStringMenu(&currentState)),
       startsWithStrMenu(StartsWithStrMenu(&currentState)) {
     std::string name = "ÈESKÁ REPUBLIKA";
 	TerritorialUnit *cr = new TerritorialUnit(name, 0);
-	this->czechia.emplaceRoot();
-	czechia.accessRoot()->data_ = cr;
+	this->czechia.emplaceRoot().data_ = cr;
+    this->manualIt = ManualIterator(&this->czechia);
 }
 
 App::~App() {
     this->czechia.processPostOrder(czechia.accessRoot(), 
-        [&](ds::amt::MultiWayExplicitHierarchyBlock<TerritorialUnit*> *block) { 
-            delete block->data_;
-            block->data_ = nullptr;
-        });
+	[&](ds::amt::MultiWayExplicitHierarchyBlock<TerritorialUnit*> *block) { 
+		delete block->data_;
+		block->data_ = nullptr;
+	});
 }
 
 void App::start() {
@@ -36,14 +37,20 @@ void App::start() {
 
 void App::mainLoop() {
     while (true) {
+        std::cout << std::endl << "* " << this->manualIt << std::endl;
         switch (this->currentState.getState()) {
         case State::EXIT:
-            return;
+           return;
         case State::MAIN_MENU:
             this->mainMenu.show();
             break;
-        case State::HIERARCHY_MENU:
-            this->hierarchyMenu.show();
+        case State::MANUAL_ITERATOR_MENU:
+            this->mItMenu.show();
+            if (this->mItMenu.getOption() == 1) {
+                this->manualIt.moveUp();
+            } else if (this->mItMenu.getOption() == 2){
+                this->manualIt.moveDown(1);
+            }
             break;
         case State::STARTS_WITH_STR_MENU:
             this->startsWithStrMenu.show();
@@ -63,15 +70,14 @@ void App::mainLoop() {
             break;
         case State::TYPE_MENU:
             this->typeMenu.show();
-            if (!this->typeMenu.isExiting()) {
-                this->processIsType(this->typeMenu.getOption());
-                this->printOutput();
+            if (this->typeMenu.getOption() != 0) {
+				this->processIsType(this->typeMenu.getOption());
+				this->printOutput();
             }
             break;
         default:
             break;
         }
-        this->results.clear();
     }
 }
 
@@ -89,8 +95,10 @@ void App::processStartsWithString(std::string &searchedString) {
             }
             return true;
         };
-
-    Algorithms::process(this->czechia.begin(), this->czechia.end(),
+ 
+    auto begin = PreOrderIterator(
+        &this->czechia, this->manualIt.getCurrentPos());
+    Algorithms::process(begin, this->czechia.end(),
                         predicate, this->results);
 }
 
@@ -151,4 +159,5 @@ void App::printOutput() {
             std::cout << *(results.access(i)->data_) << std::endl;
         }
     }
+    this->results.clear();
 }

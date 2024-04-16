@@ -4,6 +4,7 @@
 #include <functional>
 #include <libds/amt/implicit_sequence.h>
 #include <libds/amt/explicit_hierarchy.h>
+#include <libds/heap_monitor.h>
 
 class Algorithms {
   public:

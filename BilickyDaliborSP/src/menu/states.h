@@ -2,6 +2,7 @@
 #include "current_state.h"
 #include "units/territorial_unit.h"
 #include <string>
+#include <libds/heap_monitor.h>
 
 class MainMenu {
   private:
@@ -17,18 +18,20 @@ class MainMenu {
     void show();
 };
 
-class HierarchyMenu {
+class ManualIteratorMenu {
   private:
-    const std::string TITLE = "\n[\033[94mHIERARCHY MENU\033[0m]\n";
+    const std::string TITLE = "\n[\033[94mMANUAL ITERATOR MENU\033[0m]\n";
     const std::string INFO =
         " \033[94m*\033[0m Choose if you want to go up or down in hierarchy.\n";
     CurrentState *currentState;
+    int option = 0;
 
   public:
-    HierarchyMenu(CurrentState *currentState);
-    ~HierarchyMenu();
+    ManualIteratorMenu(CurrentState *currentState);
+    ~ManualIteratorMenu();
 
     void show();
+    int getOption();
 };
 
 class TypeMenu {

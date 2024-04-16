@@ -1,6 +1,7 @@
 #include "units/territorial_unit.h"
 #include "Algorithms.h"
 #include <iostream>
+#include <libds/heap_monitor.h>
 
 TerritorialUnit::TerritorialUnit() {}
 

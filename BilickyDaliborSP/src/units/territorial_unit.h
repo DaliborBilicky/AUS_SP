@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <libds/heap_monitor.h>
 
 class TerritorialUnit {
   private:
@@ -9,7 +10,7 @@ class TerritorialUnit {
   public:
     TerritorialUnit();
     TerritorialUnit(std::string &name, int code);
-    ~TerritorialUnit();
+    virtual ~TerritorialUnit();
     const std::string &getName() const;
     const int getCode() const;
     virtual void print(std::ostream &os) const;

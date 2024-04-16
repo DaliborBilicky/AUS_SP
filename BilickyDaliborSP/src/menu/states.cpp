@@ -1,6 +1,7 @@
 #include "menu/states.h"
 #include "menu/prompt.h"
 #include <iostream>
+#include <libds/heap_monitor.h>
 
 // MainMenu class ------------------------------------------------------
 MainMenu::MainMenu(CurrentState *currentState) : currentState(currentState) {}
@@ -20,7 +21,7 @@ void MainMenu::show() {
         this->currentState->setState(State::EXIT);
         break;
     case 1:
-        this->currentState->setState(State::HIERARCHY_MENU);
+        this->currentState->setState(State::MANUAL_ITERATOR_MENU);
         break;
     case 2:
         this->currentState->setState(State::STARTS_WITH_STR_MENU);
@@ -42,7 +43,6 @@ TypeMenu::TypeMenu(CurrentState *currentState) : currentState(currentState) {}
 TypeMenu::~TypeMenu() {}
 
 void TypeMenu::show() {
-    this->exiting = false;
     std::cout << this->TITLE << this->INFO;
     std::cout << "  [\033[93m0\033[0m] - Go back\n"
               << "  [\033[93m1\033[0m] - Type region\n"
@@ -52,7 +52,7 @@ void TypeMenu::show() {
     switch (option) {
     case 0:
         this->currentState->setState(State::MAIN_MENU);
-        this->exiting = true;
+        this->option = option;
         break;
     default:
         this->option = option;
@@ -65,12 +65,12 @@ int TypeMenu::getOption() { return this->option; }
 bool TypeMenu::isExiting() { return this->exiting; }
 
 // HierarchyMenu class ------------------------------------------------------
-HierarchyMenu::HierarchyMenu(CurrentState *currentState)
+ManualIteratorMenu::ManualIteratorMenu(CurrentState *currentState)
     : currentState(currentState) {}
 
-HierarchyMenu::~HierarchyMenu() {}
+ManualIteratorMenu::~ManualIteratorMenu() {}
 
-void HierarchyMenu::show() {
+void ManualIteratorMenu::show() {
     std::cout << this->TITLE << this->INFO;
     std::cout << "  [\033[94m0\033[0m] - Go back\n"
               << "  [\033[94m1\033[0m] - Up in hierarchy\n"
@@ -79,17 +79,22 @@ void HierarchyMenu::show() {
     switch (option) {
     case 0:
         this->currentState->setState(State::MAIN_MENU);
+        this->option = option;
         break;
     case 1:
-        std::cout << "Up in hierarchy" << std::endl;
+        std::cout << "\033[94m*\033[0m Up in hierarchy" << std::endl;
+        this->option = option;
         break;
     case 2:
-        std::cout << "Down in hierarchy" << std::endl;
+        std::cout << "\033[94m*\033[0m Down in hierarchy" << std::endl;
+        this->option = option;
         break;
     default:
         break;
     }
 }
+
+int ManualIteratorMenu::getOption() { return this->option; }
 
 // StringMenu class ------------------------------------------------------
 ContainsStringMenu::ContainsStringMenu(CurrentState *currentState)
