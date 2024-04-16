@@ -23,6 +23,8 @@ class ManualIteratorMenu {
     const std::string TITLE = "\n[\033[94mMANUAL ITERATOR MENU\033[0m]\n";
     const std::string INFO =
         " \033[94m*\033[0m Choose if you want to go up or down in hierarchy.\n";
+    const std::string SUB_INFO =
+        "\n \033[94m*\033[0m Choose which node you want to access.\n";
     CurrentState *currentState;
     int option = 0;
 

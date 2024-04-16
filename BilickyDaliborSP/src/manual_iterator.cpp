@@ -14,7 +14,7 @@ ManualIterator::ManualIterator(Hierarchy *hierarchy)
 ManualIterator::~ManualIterator() {}
 
 void ManualIterator::moveUp() {
-    auto pos = this->hierarchy->accessParent(*this->currentPos);
+    Node* pos = this->hierarchy->accessParent(*this->currentPos);
     if (pos != nullptr) {
         this->currentPos = pos;
         this->level--;
@@ -22,7 +22,7 @@ void ManualIterator::moveUp() {
 }
 
 void ManualIterator::moveDown(int index) {
-    auto pos = this->hierarchy->accessSon(*this->currentPos, index);
+    Node* pos = this->hierarchy->accessSon(*this->currentPos, index);
     if (pos != nullptr) {
         this->currentPos = pos;
         this->level++;
@@ -30,6 +30,9 @@ void ManualIterator::moveDown(int index) {
 }
 
 Node *ManualIterator::getCurrentPos() { return this->currentPos; }
+
+void ManualIterator::printOptions() { 
+}
 
 
 std::ostream &operator<<(
@@ -54,3 +57,4 @@ std::ostream &operator<<(
            << " (" << levelName << ")";
     return os;
 }
+

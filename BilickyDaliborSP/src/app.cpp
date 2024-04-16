@@ -5,6 +5,7 @@
 #include "units/territorial_unit.h"
 #include "units/units.h"
 #include "manual_iterator.h"
+#include "menu/prompt.h"
 #include <functional>
 #include <iostream>
 #include <libds/amt/implicit_sequence.h>
@@ -36,6 +37,8 @@ void App::start() {
 }
 
 void App::mainLoop() {
+	int counter = 0;
+	Node *node = nullptr;
     while (true) {
         std::cout << std::endl << "* " << this->manualIt << std::endl;
         switch (this->currentState.getState()) {
@@ -46,10 +49,21 @@ void App::mainLoop() {
             break;
         case State::MANUAL_ITERATOR_MENU:
             this->mItMenu.show();
+            counter = 0;
+			while ((
+				node = this->czechia.accessSon(
+					*this->manualIt.getCurrentPos(), counter)) 
+				!= nullptr) {
+				std::cout << "  ["
+						  << "\033[94m" << counter << "\033[0m"
+						  << "] - " << node->data_->getName() << std::endl;
+				counter++;
+			}
             if (this->mItMenu.getOption() == 1) {
                 this->manualIt.moveUp();
             } else if (this->mItMenu.getOption() == 2){
-                this->manualIt.moveDown(1);
+                int index = Prompt::getInput(--counter);
+                this->manualIt.moveDown(index);
             }
             break;
         case State::STARTS_WITH_STR_MENU:

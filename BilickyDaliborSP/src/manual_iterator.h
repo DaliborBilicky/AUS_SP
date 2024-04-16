@@ -20,7 +20,7 @@ class ManualIterator {
     void moveUp();
     void moveDown(int index);
     Node* getCurrentPos(); 
+    void printOptions();
     friend std::ostream &operator<<(std::ostream &os,
                                     const ManualIterator &mIt);
-
 };

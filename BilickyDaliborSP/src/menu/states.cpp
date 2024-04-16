@@ -82,12 +82,13 @@ void ManualIteratorMenu::show() {
         this->option = option;
         break;
     case 1:
-        std::cout << "\033[94m*\033[0m Up in hierarchy" << std::endl;
+        std::cout << "\033[94m*\033[0m Movnig up in hierarchy." << std::endl;
         this->option = option;
         break;
     case 2:
-        std::cout << "\033[94m*\033[0m Down in hierarchy" << std::endl;
+        std::cout << "\033[94m*\033[0m Moving down in hierarchy." << std::endl;
         this->option = option;
+        std::cout << this->SUB_INFO;
         break;
     default:
         break;
