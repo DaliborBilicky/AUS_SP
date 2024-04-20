@@ -2,9 +2,11 @@
 #include "units/units.h"
 #include <fstream>
 #include <libds/amt/implicit_sequence.h>
+#include <libds/amt/explicit_hierarchy.h>
 #include <locale>
 #include <sstream>
 #include <libds/heap_monitor.h>
+#include <string>
 
 void Algorithms::parseCSV(const std::string &path,
                           ds::amt::ImplicitSequence<Settlement*> &settlements,

@@ -5,7 +5,6 @@
 #include <libds/amt/implicit_sequence.h>
 #include <libds/amt/explicit_hierarchy.h>
 #include <libds/heap_monitor.h>
-#include <string>
 #include <functional>
 
 using PreOrderIterator = ds::amt::MultiWayExplicitHierarchy<

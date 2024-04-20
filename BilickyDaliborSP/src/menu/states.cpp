@@ -1,6 +1,7 @@
 #include "menu/states.h"
 #include "menu/prompt.h"
 #include <iostream>
+#include <string>
 #include <libds/heap_monitor.h>
 
 // LevelMenu class ------------------------------------------------------

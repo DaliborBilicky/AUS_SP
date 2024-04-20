@@ -11,6 +11,7 @@
 #include <libds/amt/explicit_hierarchy.h>
 #include <libds/amt/implicit_sequence.h>
 #include <string>
+#include <libds/heap_monitor.h>
 
 App::App()
     : typeMenu(TypeMenu(&this->currentState)),

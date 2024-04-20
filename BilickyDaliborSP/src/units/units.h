@@ -2,6 +2,7 @@
 #include "units/territorial_unit.h"
 #include <iostream>
 #include <libds/heap_monitor.h>
+#include <string>
 
 
 class Region : public TerritorialUnit {

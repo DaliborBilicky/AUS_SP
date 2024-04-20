@@ -2,6 +2,7 @@
 #include "units/territorial_unit.h"
 #include <libds/heap_monitor.h>
 #include <libds/amt/explicit_hierarchy.h>
+#include <iostream>
 
 using Node = ds::amt::MultiWayExplicitHierarchyBlock<TerritorialUnit*>; 
 using Hierarchy = ds::amt::MultiWayExplicitHierarchy<TerritorialUnit*>;

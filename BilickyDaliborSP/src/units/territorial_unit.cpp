@@ -2,6 +2,7 @@
 #include "Algorithms.h"
 #include <iostream>
 #include <libds/heap_monitor.h>
+#include <string>
 
 TerritorialUnit::TerritorialUnit() {}
 
