@@ -15,9 +15,7 @@ const std::string &TerritorialUnit::getName() const { return this->name; }
 
 const int TerritorialUnit::getCode() const { return this->code; }
 
-void TerritorialUnit::print(std::ostream &os) const {
-    os << this->name;
-}
+void TerritorialUnit::print(std::ostream &os) const { os << this->name; }
 
 std::ostream &operator<<(std::ostream &os,
                          const TerritorialUnit &territorialUnit) {
@@ -25,24 +23,22 @@ std::ostream &operator<<(std::ostream &os,
     return os;
 }
 
-std::ostream &operator<<(std::ostream &os,
-                         const UnitType &unitType) {
+std::ostream &operator<<(std::ostream &os, const UnitType &unitType) {
     std::string currentSeqName = "";
     switch (unitType) {
     case UnitType::REGION:
-            currentSeqName = "REGION";
-            break;
+        currentSeqName = "REGION";
+        break;
     case UnitType::SOORP:
-            currentSeqName = "SOORP";
-            break;
+        currentSeqName = "SOORP";
+        break;
     case UnitType::SETTLEMENT:
-            currentSeqName = "SETTLEMENT";
-            break;
+        currentSeqName = "SETTLEMENT";
+        break;
     }
-	os << std::endl
-	   << "[\033[95mCURRENT SEQUENCE\033[0m]\n"
-	   << " \033[95m*\033[0m Current sequence is: "
-	   << "\033[95m" << currentSeqName << "\033[0m";
+    os << std::endl
+       << "[\033[95mCURRENT SEQUENCE\033[0m]\n"
+       << " \033[95m*\033[0m Current sequence is: " << "\033[95m"
+       << currentSeqName << "\033[0m";
     return os;
 }
-

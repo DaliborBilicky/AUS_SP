@@ -1,15 +1,15 @@
 #pragma once
 #include "current_state.h"
 #include "units/territorial_unit.h"
-#include <string>
 #include <libds/heap_monitor.h>
+#include <string>
 
 class LevelMenu {
   private:
     const std::string TITLE = "\n[\033[90mLEVEL MENU\033[0m]\n";
     const std::string INFO = " \033[90m*\033[0m Choose level to use.\n";
     CurrentState *currentState;
-    
+
   public:
     LevelMenu(CurrentState *currentState);
     ~LevelMenu();

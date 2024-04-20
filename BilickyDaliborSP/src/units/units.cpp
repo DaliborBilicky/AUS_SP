@@ -1,7 +1,7 @@
 #include "units/units.h"
-#include <string>
-#include <libds/heap_monitor.h>
 #include <iostream>
+#include <libds/heap_monitor.h>
+#include <string>
 
 // Region class ----------------------------------------------------
 Region::Region() {}

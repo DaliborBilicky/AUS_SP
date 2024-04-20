@@ -1,8 +1,8 @@
 #include "menu/prompt.h"
 #include <iostream>
+#include <libds/heap_monitor.h>
 #include <sstream>
 #include <string>
-#include <libds/heap_monitor.h>
 
 std::string Prompt::getStringInput() {
     std::string input = "";
@@ -29,12 +29,10 @@ int Prompt::getInput(int upperBound) {
                 wrongInput = false;
                 return intInput;
             }
-            std::cout << "[\033[31mWRONG INPUT"
-                      << "\033[0m]\n"
+            std::cout << "[\033[31mWRONG INPUT" << "\033[0m]\n"
                       << " \033[31m*\033[0m Number out of range." << std::endl;
         } else {
-            std::cout << "[\033[31mWRONG INPUT"
-                      << "\033[0m]\n"
+            std::cout << "[\033[31mWRONG INPUT" << "\033[0m]\n"
                       << " \033[31m*\033[0m Not a number." << std::endl;
         }
     }

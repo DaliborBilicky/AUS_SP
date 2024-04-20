@@ -1,18 +1,19 @@
 #include "algorithms.h"
 #include "units/units.h"
 #include <fstream>
-#include <libds/amt/implicit_sequence.h>
 #include <libds/amt/explicit_hierarchy.h>
+#include <libds/amt/implicit_sequence.h>
+#include <libds/heap_monitor.h>
 #include <locale>
 #include <sstream>
-#include <libds/heap_monitor.h>
 #include <string>
 
-void Algorithms::parseCSV(const std::string &path,
-                          ds::amt::ImplicitSequence<Settlement*> &settlements,
-                          ds::amt::ImplicitSequence<Soorp*> &soorps,
-                          ds::amt::ImplicitSequence<Region*> &regions,
-    ds::amt::MultiWayExplicitHierarchy<TerritorialUnit*> &czechia) {
+void Algorithms::parseCSV(
+    const std::string &path,
+    ds::amt::ImplicitSequence<Settlement *> &settlements,
+    ds::amt::ImplicitSequence<Soorp *> &soorps,
+    ds::amt::ImplicitSequence<Region *> &regions,
+    ds::amt::MultiWayExplicitHierarchy<TerritorialUnit *> &czechia) {
 
     auto *root = czechia.accessRoot();
     int regionCounter = -1;
@@ -42,12 +43,12 @@ void Algorithms::parseCSV(const std::string &path,
 
             std::getline(sStream, temp, ';');
             code = std::atoi(temp.substr(2).c_str());
-            Region *region = new Region(name, code); 
+            Region *region = new Region(name, code);
 
             soorpCounter = -1;
             regionCounter++;
-			czechia.emplaceSon(*root, regionCounter).data_ = region;
-            
+            czechia.emplaceSon(*root, regionCounter).data_ = region;
+
             regions.insertLast().data_ = region;
 
             sStream = std::stringstream(line);
@@ -67,7 +68,7 @@ void Algorithms::parseCSV(const std::string &path,
 
             settlementCounter = -1;
             soorpCounter++;
-            auto* region = czechia.accessSon(*root, regionCounter);
+            auto *region = czechia.accessSon(*root, regionCounter);
             czechia.emplaceSon(*region, soorpCounter).data_ = soorp;
 
             soorps.insertLast().data_ = soorp;
@@ -107,20 +108,19 @@ void Algorithms::parseCSV(const std::string &path,
 
         std::getline(sStream, temp, ';');
         char gas = temp[0];
-        Settlement *settlement = new Settlement(
-            name, code, type, cadaArea, numOfRes, 
-            resU14, resO65, canal, water, gas);
+        Settlement *settlement =
+            new Settlement(name, code, type, cadaArea, numOfRes, resU14, resO65,
+                           canal, water, gas);
 
-		 settlementCounter++;
-		 auto* region = czechia.accessSon(*root, regionCounter);
-	     auto* soorp = czechia.accessSon(*region, soorpCounter);
-         czechia.emplaceSon(*soorp, settlementCounter).data_ = settlement;
+        settlementCounter++;
+        auto *region = czechia.accessSon(*root, regionCounter);
+        auto *soorp = czechia.accessSon(*region, soorpCounter);
+        czechia.emplaceSon(*soorp, settlementCounter).data_ = settlement;
 
         settlements.insertLast().data_ = settlement;
     }
     ifs.close();
 }
-
 
 std::string &Algorithms::lowerCase(std::string &str) {
     for (char &c : str) {
@@ -128,7 +128,6 @@ std::string &Algorithms::lowerCase(std::string &str) {
     }
     return str;
 }
-
 
 std::string &Algorithms::upperCase(std::string &str) {
     for (char &c : str) {

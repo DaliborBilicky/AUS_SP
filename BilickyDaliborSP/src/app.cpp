@@ -10,22 +10,22 @@
 #include <iostream>
 #include <libds/amt/explicit_hierarchy.h>
 #include <libds/amt/implicit_sequence.h>
-#include <string>
 #include <libds/heap_monitor.h>
+#include <string>
 
 App::App()
     : typeMenu(TypeMenu(&this->currentState)),
       mItMenu(ManualIteratorMenu(&this->currentState)),
       containsStringMenu(ContainsStringMenu(&this->currentState)),
-      startsWithStrMenu(StartsWithStrMenu(&this->currentState)){
+      startsWithStrMenu(StartsWithStrMenu(&this->currentState)) {
 
     std::string name = "ÈESKÁ REPUBLIKA";
     TerritorialUnit *cr = new TerritorialUnit(name, 0);
     this->czechia.emplaceRoot().data_ = cr;
     this->manualIt = ManualIterator(&this->czechia);
 
-    Algorithms::parseCSV("./res/CR_win1250.csv", 
-        this->settlements, this->soorps, this->regions, this->czechia);
+    Algorithms::parseCSV("./res/CR_win1250.csv", this->settlements,
+                         this->soorps, this->regions, this->czechia);
 }
 
 App::~App() {
@@ -65,22 +65,22 @@ void App::mainLoop() {
             break;
         case State::STARTS_WITH_STR_MENU:
             this->startsWithStrMenu.update();
-			this->processStartsWithString();
+            this->processStartsWithString();
             break;
         case State::CONTAINS_STR_MENU:
             this->containsStringMenu.update();
-			this->processContainsString();
+            this->processContainsString();
             break;
         case State::TYPE_MENU:
             this->typeMenu.update();
             this->processIsType();
             break;
         }
-        
-		if (this->currentState.getLevel() == Level::LEVEL_2) {
-		    std::cout << this->manualIt << std::endl;
-	    } else if (this->currentState.getLevel() == Level::LEVEL_1) {
-			std::cout << this->currentSeq << std::endl;
+
+        if (this->currentState.getLevel() == Level::LEVEL_2) {
+            std::cout << this->manualIt << std::endl;
+        } else if (this->currentState.getLevel() == Level::LEVEL_1) {
+            std::cout << this->currentSeq << std::endl;
         }
     }
 }
@@ -90,10 +90,10 @@ void App::processStartsWithString() {
         return;
     }
 
-    std::string strLover = Algorithms::lowerCase(
-        this->startsWithStrMenu.getSearchedString());
-    std::string strUpper = Algorithms::upperCase(
-        this->startsWithStrMenu.getSearchedString());
+    std::string strLover =
+        Algorithms::lowerCase(this->startsWithStrMenu.getSearchedString());
+    std::string strUpper =
+        Algorithms::upperCase(this->startsWithStrMenu.getSearchedString());
 
     std::function<bool(TerritorialUnit *)> predicate =
         [&](TerritorialUnit *unit) {
@@ -115,10 +115,10 @@ void App::processContainsString() {
         return;
     }
 
-    std::string strLover = Algorithms::lowerCase(
-        this->containsStringMenu.getSearchedString());
-    std::string strUpper = Algorithms::upperCase(
-        this->containsStringMenu.getSearchedString());
+    std::string strLover =
+        Algorithms::lowerCase(this->containsStringMenu.getSearchedString());
+    std::string strUpper =
+        Algorithms::upperCase(this->containsStringMenu.getSearchedString());
 
     std::function<bool(TerritorialUnit *)> predicate =
         [&](TerritorialUnit *unit) {
@@ -169,54 +169,50 @@ void App::moveManualIterator() {
         return;
     }
 
-	int counter = 0;
+    int counter = 0;
     Node *node = nullptr;
 
-	while ((node = this->czechia.accessSon(
-				*this->manualIt.getCurrentPos(), counter)) != nullptr) {
-		std::cout << "  [" << "\033[93m" << counter << "\033[0m"
-				  << "] - " << node->data_->getName() << std::endl;
-		counter++;
-	}
+    while ((node = this->czechia.accessSon(*this->manualIt.getCurrentPos(),
+                                           counter)) != nullptr) {
+        std::cout << "  [" << "\033[93m" << counter << "\033[0m" << "] - "
+                  << node->data_->getName() << std::endl;
+        counter++;
+    }
 
-	if (this->mItMenu.getOption() == 1) {
-		this->manualIt.moveUp();
-	} else if (this->mItMenu.getOption() == 2) {
-		int index = Prompt::getInput(--counter);
-		this->manualIt.moveDown(index);
-	}
+    if (this->mItMenu.getOption() == 1) {
+        this->manualIt.moveUp();
+    } else if (this->mItMenu.getOption() == 2) {
+        int index = Prompt::getInput(--counter);
+        this->manualIt.moveDown(index);
+    }
 }
 
+void App::proccessData(std::function<bool(TerritorialUnit *)> &predicate) {
+    if (this->currentState.getLevel() == Level::LEVEL_2) {
 
-void App::proccessData(std::function<bool (TerritorialUnit*)>& predicate) {
-	if (this->currentState.getLevel() == Level::LEVEL_2) {
+        auto begin =
+            PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
+        Algorithms::process(begin, this->czechia.end(), predicate,
+                            this->results);
 
-		auto begin =
-			PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
-		Algorithms::process(
-            begin, this->czechia.end(), predicate, this->results);
+    } else if (this->currentState.getLevel() == Level::LEVEL_1) {
 
-	} else if (this->currentState.getLevel() == Level::LEVEL_1) {
-
-		switch (this->currentSeq) { 
+        switch (this->currentSeq) {
         case UnitType::REGION:
-			Algorithms::process(
-                this->regions.begin(), this->regions.end(), 
-                predicate, this->results);
+            Algorithms::process(this->regions.begin(), this->regions.end(),
+                                predicate, this->results);
             break;
         case UnitType::SOORP:
-			Algorithms::process(
-                this->soorps.begin(), this->soorps.end(), 
-                predicate, this->results);
+            Algorithms::process(this->soorps.begin(), this->soorps.end(),
+                                predicate, this->results);
             break;
         case UnitType::SETTLEMENT:
-			Algorithms::process(
-                this->settlements.begin(), this->settlements.end(), 
-                predicate, this->results);
+            Algorithms::process(this->settlements.begin(),
+                                this->settlements.end(), predicate,
+                                this->results);
             break;
-		}
-
-	}
+        }
+    }
 }
 
 void App::printOutput() {

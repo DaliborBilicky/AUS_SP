@@ -4,7 +4,6 @@
 #include <libds/heap_monitor.h>
 #include <string>
 
-
 class Region : public TerritorialUnit {
   public:
     Region();

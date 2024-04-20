@@ -1,6 +1,6 @@
 #pragma once
-#include <string>
 #include <libds/heap_monitor.h>
+#include <string>
 
 class Prompt {
   public:

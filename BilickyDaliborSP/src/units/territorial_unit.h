@@ -20,8 +20,6 @@ class TerritorialUnit {
                                     const TerritorialUnit &territorialUnit);
 };
 
-enum UnitType {
-    REGION = 1, SOORP = 2, SETTLEMENT = 3
-};
+enum UnitType { REGION = 1, SOORP = 2, SETTLEMENT = 3 };
 
 std::ostream &operator<<(std::ostream &os, const UnitType &unitType);
