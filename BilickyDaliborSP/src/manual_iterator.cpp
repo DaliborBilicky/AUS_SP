@@ -40,21 +40,22 @@ std::ostream &operator<<(
     std::string levelName = "";
     switch (mIt.level) {
         case 0:
-            levelName = "root";
+            levelName = "ROOT";
             break;
         case 1:
-            levelName = "region";
+            levelName = "REGION";
             break;
         case 2:
             levelName = "SOORP";
             break;
         case 3:
-            levelName = "settlement";
+            levelName = "SETTLEMENT";
             break;
     }
-        os << "Current position of manual iterator: "
-           << mIt.currentPos->data_->getName() 
-           << " (" << levelName << ")";
+	os << std::endl
+	   << "[\033[95m" << levelName << "\033[0m]\n"
+	   << " \033[95m*\033[0m Current position of manual iterator: "
+	   << "\033[95m" << mIt.currentPos->data_->getName() << "\033[0m";
     return os;
 }
 

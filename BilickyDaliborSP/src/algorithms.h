@@ -14,10 +14,9 @@ class Algorithms {
                         StructT &results);
 
     static void parseCSV(const std::string &path,
-                         ds::amt::ImplicitSequence<Settlement> &settlements,
-                         ds::amt::ImplicitSequence<Soorp> &soorps,
-                         ds::amt::ImplicitSequence<Region> &regions);
-    static void parseCSV(const std::string &path, 
+                         ds::amt::ImplicitSequence<Settlement*> &settlements,
+                         ds::amt::ImplicitSequence<Soorp*> &soorps,
+                         ds::amt::ImplicitSequence<Region*> &regions,
         ds::amt::MultiWayExplicitHierarchy<TerritorialUnit*> &czechia);
 
     static std::string &lowerCase(std::string &str);
@@ -30,7 +29,7 @@ void Algorithms::process(IteratorT begin, IteratorT end,
                          StructT &results) {
     while (begin != end) {
         if (predicate(*begin)) {
-            // results.emplace_back(&(*begin));
+            // results.emplace_back(&(*begin)); -> vector 
             results.insertLast().data_ = *begin;
         }
         ++begin;

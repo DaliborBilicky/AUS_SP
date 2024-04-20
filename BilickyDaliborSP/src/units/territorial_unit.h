@@ -17,5 +17,10 @@ class TerritorialUnit {
 
     friend std::ostream &operator<<(std::ostream &os,
                                     const TerritorialUnit &territorialUnit);
-    friend bool operator==(const TerritorialUnit &me, const TerritorialUnit &other);
 };
+
+enum UnitType {
+    REGION = 1, SOORP = 2, SETTLEMENT = 3
+};
+
+std::ostream &operator<<(std::ostream &os, const UnitType &unitType);

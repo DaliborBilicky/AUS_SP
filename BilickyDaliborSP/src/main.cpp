@@ -10,7 +10,6 @@ int main(int argc, char *argv[]) {
     SetConsoleOutputCP(1250);
     {
         App app;
-        app.start();
         app.mainLoop();
     }
     _CrtDumpMemoryLeaks();
