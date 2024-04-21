@@ -12,12 +12,12 @@ enum State {
     SEQUENCE_MENU
 };
 
-enum Level { LEVEL_1, LEVEL_2 };
+enum Level { LEVEL_0, LEVEL_1, LEVEL_2 };
 
 class CurrentState {
   private:
     State state = State::LEVEL_MENU;
-    Level level = Level::LEVEL_2;
+    Level level = Level::LEVEL_0;
 
   public:
     CurrentState();

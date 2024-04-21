@@ -6,8 +6,8 @@
 
 class LevelMenu {
   private:
-    const std::string TITLE = "\n[\033[90mLEVEL MENU\033[0m]\n";
-    const std::string INFO = " \033[90m*\033[0m Choose level to use.\n";
+    const std::string TITLE = "\n[LEVEL MENU]\n";
+    const std::string INFO = " * Choose level to use.\n";
     CurrentState *currentState;
 
   public:
@@ -37,7 +37,7 @@ class ManualIteratorMenu {
     const std::string INFO =
         " \033[93m*\033[0m Choose if you want to go up or down in hierarchy.\n";
     const std::string SUB_INFO =
-        "\n \033[93m*\033[0m Choose which node you want to access.\n";
+        " \033[93m*\033[0m Choose which node you want to access.\n";
     CurrentState *currentState;
     int option = 0;
 

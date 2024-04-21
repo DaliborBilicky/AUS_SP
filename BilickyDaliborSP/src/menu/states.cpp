@@ -11,14 +11,15 @@ LevelMenu::~LevelMenu() {}
 
 void LevelMenu::update() {
     std::cout << this->TITLE << this->INFO;
-    std::cout << "  [\033[90m0\033[0m] - Exit program\n"
-              << "  [\033[90m1\033[0m] - 1. level\n"
-              << "  [\033[90m2\033[0m] - 2. level\n";
+    std::cout << "  [0] - Exit program\n"
+              << "  [1] - Level 1\n"
+              << "  [2] - Level 2\n";
     int option = Prompt::getInput(2);
     this->currentState->setState(State::MAIN_MENU);
     switch (option) {
     case 0:
         this->currentState->setState(State::EXIT);
+        this->currentState->setLevel(Level::LEVEL_0);
         break;
     case 1:
         this->currentState->setLevel(Level::LEVEL_1);
@@ -116,11 +117,9 @@ void ManualIteratorMenu::update() {
         this->option = option;
         break;
     case 1:
-        std::cout << "\033[94m*\033[0m Movnig up in hierarchy." << std::endl;
         this->option = option;
         break;
     case 2:
-        std::cout << "\033[94m*\033[0m Moving down in hierarchy." << std::endl;
         this->option = option;
         std::cout << this->SUB_INFO;
         break;

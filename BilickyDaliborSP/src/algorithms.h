@@ -30,9 +30,10 @@ void Algorithms::process(IteratorT begin, IteratorT end,
                          std::function<bool(PredicateParam)> predicate,
                          StructT &results) {
     while (begin != end) {
-        if (predicate(*begin)) {
+        if (predicate(*begin)) { // &(*begin) => *begin
             // results.emplace_back(&(*begin)); -> vector
-            results.insertLast().data_ = *begin;
+            results.insertLast().data_ = *begin; // &(*begin) => *begin
+
         }
         ++begin;
     }
