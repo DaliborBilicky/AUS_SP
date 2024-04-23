@@ -134,17 +134,21 @@ namespace ds::adt {
     template<typename T, typename SequenceType>
     size_t GeneralList<T, SequenceType>::calculateIndex(T element)
     {
-        size_t index = 0;
-        SequenceType::BlockType *block =
-            this->getSequence()->findBlockWithProperty([&](SequenceType::BlockType* b) -> bool {
-                    if (b->data_ == element) {
-                        return true;
-                    }
-                    index++;
+        size_t result = 0;
+        typename SequenceType::BlockType* block = this->getSequence()->findBlockWithProperty(
+            [&](typename SequenceType::BlockType* b)
+            {
+                if (b->data_ == element)
+                {
+                    return true;
+                }
+                else
+                {
+                    result++;
                     return false;
                 }
-        );
-        return block == nullptr ? INVALID_INDEX : index;
+            });
+        return block != nullptr ? result : INVALID_INDEX;
     }
 
     template<typename T, typename SequenceType>
@@ -156,30 +160,39 @@ namespace ds::adt {
     template<typename T, typename SequenceType>
     T GeneralList<T, SequenceType>::accessFirst()
     {
-        SequenceType::BlockType* block = this->getSequence()->accessFirst();
-        if (block == nullptr) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::accessFirst() -> list is empty.");
+        typename SequenceType::BlockType* block = this->getSequence()->accessFirst();
+
+        if (block == nullptr)
+        {
+            throw std::out_of_range("List is empty!");
         }
+
         return block->data_;
     }
 
     template<typename T, typename SequenceType>
     T GeneralList<T, SequenceType>::accessLast()
     {
-        SequenceType::BlockType* block = this->getSequence()->accessLast();
-        if (block == nullptr) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::accessFirst() -> list is empty.");
+        typename SequenceType::BlockType* block = this->getSequence()->accessLast();
+
+        if (block == nullptr)
+        {
+            throw std::out_of_range("List is empty!");
         }
+
         return block->data_;
     }
 
     template<typename T, typename SequenceType>
     T GeneralList<T, SequenceType>::access(size_t index)
     {
-        SequenceType::BlockType* block = this->getSequence()->access(index);
-        if (block == nullptr) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::accessFirst() -> invalid index");
+        typename SequenceType::BlockType* block = this->getSequence()->access(index);
+
+        if (block == nullptr)
+        {
+            throw std::out_of_range("Invalid index!");
         }
+
         return block->data_;
     }
 
@@ -198,27 +211,33 @@ namespace ds::adt {
     template<typename T, typename SequenceType>
     void GeneralList<T, SequenceType>::insert(T element, size_t index)
     {
-        if (index > this->size()) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::insert(T element, size_t index) -> invalid index");
+        if (index > this->size())
+        {
+            throw std::out_of_range("Invalid index!");
         }
+
         this->getSequence()->insert(index).data_ = element;
     }
 
     template<typename T, typename SequenceType>
     void GeneralList<T, SequenceType>::set(size_t index, T element)
     {
-        SequenceType::BlockType* block = this->getSequence()->access(index);
-        if (block == nullptr) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::accessFirst() -> invalid index");
+        typename SequenceType::BlockType* block = this->getSequence()->access(index);
+
+        if (block == nullptr)
+        {
+            throw std::out_of_range("Invalid index!");
         }
+
         block->data_ = element;
     }
 
     template<typename T, typename SequenceType>
     void GeneralList<T, SequenceType>::removeFirst()
     {
-        if (this->size() == 0) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::removeFirst() -> list is empty");
+        if (this->isEmpty())
+        {
+            throw std::out_of_range("List is empty!");
         }
         this->getSequence()->removeFirst();
     }
@@ -226,8 +245,9 @@ namespace ds::adt {
     template<typename T, typename SequenceType>
     void GeneralList<T, SequenceType>::removeLast()
     {
-        if (this->size() == 0) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::removeFirst() -> list is empty");
+        if (this->isEmpty())
+        {
+            throw std::out_of_range("List is empty!");
         }
         this->getSequence()->removeLast();
     }
@@ -235,10 +255,9 @@ namespace ds::adt {
     template<typename T, typename SequenceType>
     void GeneralList<T, SequenceType>::remove(size_t index)
     {
-        if (index > this->size()) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::removeFirst() -> invalid index");
-        } else if (this->size() == 0) {
-            throw std::out_of_range("GeneralList<T, SequenceType>::removeFirst() -> list is empty");
+        if (index >= this->size())
+        {
+            throw std::out_of_range("Invalid index!");
         }
         this->getSequence()->remove(index);
     }
