@@ -2,7 +2,6 @@
 #include "algorithms.h"
 #include "manual_iterator.h"
 #include "menu/current_state.h"
-#include "menu/prompt.h"
 #include "menu/states.h"
 #include "units/territorial_unit.h"
 #include "units/units.h"
@@ -31,9 +30,9 @@ App::App()
 App::~App() {
     this->czechia.processPostOrder(
         czechia.accessRoot(),
-        [&](ds::amt::MultiWayExplicitHierarchyBlock<TerritorialUnit *> *block) {
-            delete block->data_;
-            block->data_ = nullptr;
+        [&](ds::amt::MultiWayExplicitHierarchyBlock<TerritorialUnit *> *node) {
+            delete node->data_;
+            node->data_ = nullptr;
         });
 }
 
@@ -165,33 +164,11 @@ void App::processIsType() {
 }
 
 void App::moveManualIterator() {
-    if (this->mItMenu.getOption() == 0) {
+    int option = this->mItMenu.getOption();
+    if (option == 0) {
         return;
     }
-
-    int counter = 0;
-    Node *node = nullptr;
-
-    if (this->mItMenu.getOption() == 1) {
-        if (this->manualIt.getCurrentPos()->parent_ == nullptr) {
-            std::cout << " \033[93m*\033[0m You are on the top.\n";
-            return;
-        }
-        this->manualIt.moveUp();
-    } else if (this->mItMenu.getOption() == 2) {
-        while ((node = this->czechia.accessSon(*this->manualIt.getCurrentPos(),
-                                               counter)) != nullptr) {
-            std::cout << "  [" << "\033[93m" << counter << "\033[0m" << "] - "
-                      << node->data_->getName() << std::endl;
-            counter++;
-        }
-        if (counter == 0) {
-            std::cout << " \033[93m*\033[0m You are at the end.\n";
-            return;
-        }
-        int index = Prompt::getInput(--counter);
-        this->manualIt.moveDown(index);
-    }
+    this->manualIt.printOptions(option);
 }
 
 void App::proccessData(std::function<bool(TerritorialUnit *)> &predicate) {

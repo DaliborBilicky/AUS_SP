@@ -13,15 +13,16 @@ class ManualIterator {
     Hierarchy *hierarchy = nullptr;
     int level = 0;
 
+    void moveUp();
+    void moveDown(int index);
+
   public:
     ManualIterator();
     ManualIterator(Hierarchy *hierachy);
     ~ManualIterator();
 
-    void moveUp();
-    void moveDown(int index);
     Node *getCurrentPos();
-    void printOptions();
+    void printOptions(int option);
     friend std::ostream &operator<<(std::ostream &os,
                                     const ManualIterator &mIt);
 };

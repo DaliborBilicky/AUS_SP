@@ -3,6 +3,7 @@
 #include <iostream>
 #include <libds/heap_monitor.h>
 #include <string>
+#include <cstdlib>
 
 // LevelMenu class ------------------------------------------------------
 LevelMenu::LevelMenu(CurrentState *currentState) : currentState(currentState) {}
@@ -28,6 +29,7 @@ void LevelMenu::update() {
         this->currentState->setLevel(Level::LEVEL_2);
         break;
     }
+    std::system("cls");
 }
 
 // MainMenu class ------------------------------------------------------
@@ -70,6 +72,7 @@ void MainMenu::update() {
         }
         break;
     }
+    std::system("cls");
 }
 
 // IsTypeMenu class ------------------------------------------------------
@@ -93,6 +96,7 @@ void TypeMenu::update() {
         this->option = option;
         break;
     }
+    std::system("cls");
 }
 
 int TypeMenu::getOption() { return this->option; }
@@ -115,6 +119,7 @@ void ManualIteratorMenu::update() {
     case 0:
         this->currentState->setState(State::MAIN_MENU);
         this->option = option;
+        std::system("cls");
         break;
     case 1:
         this->option = option;
@@ -148,6 +153,7 @@ void ContainsStringMenu::update() {
         this->searchedString = Prompt::getStringInput();
         break;
     }
+    std::system("cls");
 }
 
 std::string &ContainsStringMenu::getSearchedString() {
@@ -174,6 +180,7 @@ void StartsWithStrMenu::update() {
         this->searchedString = Prompt::getStringInput();
         break;
     }
+    std::system("cls");
 }
 
 std::string &StartsWithStrMenu::getSearchedString() {
@@ -202,6 +209,7 @@ void SequenceMenu::update() {
         this->option = option;
         break;
     }
+    std::system("cls");
 }
 
 int SequenceMenu::getOption() { return this->option; }

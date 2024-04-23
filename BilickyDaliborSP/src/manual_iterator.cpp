@@ -1,4 +1,5 @@
 #include "manual_iterator.h"
+#include "menu/prompt.h"
 #include "units/territorial_unit.h"
 #include <iostream>
 #include <libds/amt/explicit_hierarchy.h>
@@ -30,7 +31,23 @@ void ManualIterator::moveDown(int index) {
 
 Node *ManualIterator::getCurrentPos() { return this->currentPos; }
 
-void ManualIterator::printOptions() {}
+void ManualIterator::printOptions(int option) {
+    Node *son = nullptr;
+    int degree = this->hierarchy->degree(*this->currentPos);
+
+    if (option == 1 && this->level > 0) {
+        this->moveUp();
+    } else if (option == 2 && this->level < 3) {
+        for (int i = 0; i < degree; i++) {
+            son = this->hierarchy->accessSon(*this->currentPos, i);
+            std::cout << "  [" << "\033[93m" << i << "\033[0m" << "] - "
+                      << son->data_->getName() << std::endl;
+        }
+        int index = Prompt::getInput(--degree);
+        this->moveDown(index);
+    }
+    std::system("cls");
+}
 
 std::ostream &operator<<(std::ostream &os, const ManualIterator &mIt) {
     std::string levelName = "";
