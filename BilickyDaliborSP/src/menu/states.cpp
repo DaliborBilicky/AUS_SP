@@ -1,9 +1,9 @@
 #include "menu/states.h"
 #include "menu/prompt.h"
+#include <cstdlib>
 #include <iostream>
 #include <libds/heap_monitor.h>
 #include <string>
-#include <cstdlib>
 
 // LevelMenu class ------------------------------------------------------
 LevelMenu::LevelMenu(CurrentState *currentState) : currentState(currentState) {}

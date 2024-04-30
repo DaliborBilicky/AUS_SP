@@ -14,8 +14,8 @@ class Algorithms {
                         std::function<bool(PredicateParam)> predicate,
                         StructT &results);
 
-    static void parseCSV(
-			 const std::string &path,
+    static void
+    parseCSV(const std::string &path,
              ds::amt::ImplicitSequence<Settlement *> &settlements,
              ds::amt::ImplicitSequence<Soorp *> &soorps,
              ds::amt::ImplicitSequence<Region *> &regions,
@@ -33,7 +33,6 @@ void Algorithms::process(IteratorT begin, IteratorT end,
         if (predicate(*begin)) { // &(*begin) => *begin
             // results.emplace_back(&(*begin)); -> vector
             results.insertLast().data_ = *begin; // &(*begin) => *begin
-
         }
         ++begin;
     }

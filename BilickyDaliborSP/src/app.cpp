@@ -40,6 +40,7 @@ void App::mainLoop() {
     LevelMenu levelMenu(&this->currentState);
     MainMenu mainMenu(&this->currentState);
     SequenceMenu seqMenu(&this->currentState);
+    bool a = true;
 
     while (true) {
         switch (this->currentState.getState()) {
