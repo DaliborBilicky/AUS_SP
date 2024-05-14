@@ -5,33 +5,6 @@
 #include <libds/heap_monitor.h>
 #include <string>
 
-// LevelMenu class ------------------------------------------------------
-LevelMenu::LevelMenu(CurrentState *currentState) : currentState(currentState) {}
-
-LevelMenu::~LevelMenu() {}
-
-void LevelMenu::update() {
-    std::cout << this->TITLE << this->INFO;
-    std::cout << "  [0] - Exit program\n"
-              << "  [1] - Level 1\n"
-              << "  [2] - Level 2\n";
-    int option = Prompt::getInput(2);
-    this->currentState->setState(State::MAIN_MENU);
-    switch (option) {
-    case 0:
-        this->currentState->setState(State::EXIT);
-        this->currentState->setLevel(Level::LEVEL_0);
-        break;
-    case 1:
-        this->currentState->setLevel(Level::LEVEL_1);
-        break;
-    case 2:
-        this->currentState->setLevel(Level::LEVEL_2);
-        break;
-    }
-    std::system("cls");
-}
-
 // MainMenu class ------------------------------------------------------
 MainMenu::MainMenu(CurrentState *currentState) : currentState(currentState) {}
 
@@ -39,37 +12,32 @@ MainMenu::~MainMenu() {}
 
 void MainMenu::update() {
     std::cout << this->TITLE << this->INFO;
-    std::cout << "  [\033[95m0\033[0m] - Go back\n"
-              << "  [\033[95m1\033[0m] - Starts with string\n"
-              << "  [\033[95m2\033[0m] - Contains string\n"
-              << "  [\033[95m3\033[0m] - Is specific territorial type\n";
+    std::cout << "  [\033[31m0\033[0m] - Exit\n"
+              << "  [\033[93m1\033[0m] - Search with tabels\n"
+              << "  [\033[92m2\033[0m] - Starts with string\n"
+              << "  [\033[96m3\033[0m] - Contains string\n"
+              << "  [\033[94m4\033[0m] - Is specific territorial type\n"
+              << "  [\033[95m5\033[0m] - Move in hierarchy\n";
 
-    if (this->currentState->getLevel() == Level::LEVEL_2) {
-        std::cout << "  [\033[95m4\033[0m] - Move in hierarchy\n";
-    } else if (this->currentState->getLevel() == Level::LEVEL_1) {
-        std::cout << "  [\033[95m4\033[0m] - Pick type of sequence\n";
-    }
-
-    int option = Prompt::getInput(4);
+    int option = Prompt::getInput(5);
     switch (option) {
     case 0:
-        this->currentState->setState(State::LEVEL_MENU);
+        this->currentState->setState(State::EXIT);
         break;
     case 1:
-        this->currentState->setState(State::STARTS_WITH_STR_MENU);
+        this->currentState->setState(State::TABEL_MENU);
         break;
     case 2:
-        this->currentState->setState(State::CONTAINS_STR_MENU);
+        this->currentState->setState(State::STARTS_WITH_STR_MENU);
         break;
     case 3:
-        this->currentState->setState(State::TYPE_MENU);
+        this->currentState->setState(State::CONTAINS_STR_MENU);
         break;
     case 4:
-        if (this->currentState->getLevel() == Level::LEVEL_2) {
-            this->currentState->setState(State::MANUAL_ITERATOR_MENU);
-        } else if (this->currentState->getLevel() == Level::LEVEL_1) {
-            this->currentState->setState(State::SEQUENCE_MENU);
-        }
+        this->currentState->setState(State::TYPE_MENU);
+        break;
+    case 5:
+        this->currentState->setState(State::MANUAL_ITERATOR_MENU);
         break;
     }
     std::system("cls");
@@ -82,10 +50,10 @@ TypeMenu::~TypeMenu() {}
 
 void TypeMenu::update() {
     std::cout << this->TITLE << this->INFO;
-    std::cout << "  [\033[92m0\033[0m] - Go back\n"
-              << "  [\033[92m1\033[0m] - Type region\n"
-              << "  [\033[92m2\033[0m] - Type SOORP\n"
-              << "  [\033[92m3\033[0m] - Type settlement\n";
+    std::cout << "  [\033[94m0\033[0m] - Go back\n"
+              << "  [\033[94m1\033[0m] - Type region\n"
+              << "  [\033[94m2\033[0m] - Type SOORP\n"
+              << "  [\033[94m3\033[0m] - Type settlement\n";
     int option = Prompt::getInput(3);
     switch (option) {
     case 0:
@@ -111,9 +79,9 @@ ManualIteratorMenu::~ManualIteratorMenu() {}
 
 void ManualIteratorMenu::update() {
     std::cout << this->TITLE << this->INFO;
-    std::cout << "  [\033[93m0\033[0m] - Go back\n"
-              << "  [\033[93m1\033[0m] - Up in hierarchy\n"
-              << "  [\033[93m2\033[0m] - Down in hierarchy\n";
+    std::cout << "  [\033[95m0\033[0m] - Go back\n"
+              << "  [\033[95m1\033[0m] - Up in hierarchy\n"
+              << "  [\033[95m2\033[0m] - Down in hierarchy\n";
     int option = Prompt::getInput(2);
     switch (option) {
     case 0:
@@ -168,8 +136,8 @@ StartsWithStrMenu::~StartsWithStrMenu() {}
 
 void StartsWithStrMenu::update() {
     std::cout << this->TITLE << this->INFO;
-    std::cout << "  [\033[94m0\033[0m] - Go back\n"
-              << "  [\033[94m1\033[0m] - Write string\n";
+    std::cout << "  [\033[92m0\033[0m] - Go back\n"
+              << "  [\033[92m1\033[0m] - Write string\n";
     int option = Prompt::getInput(1);
     switch (option) {
     case 0:
@@ -187,18 +155,17 @@ std::string &StartsWithStrMenu::getSearchedString() {
     return this->searchedString;
 }
 
-// SequenceMenu class ------------------------------------------------------
-SequenceMenu::SequenceMenu(CurrentState *currentState)
-    : currentState(currentState) {}
+// TableMenu class ------------------------------------------------------
+TableMenu::TableMenu(CurrentState *currentState) : currentState(currentState) {}
 
-SequenceMenu::~SequenceMenu() {}
+TableMenu::~TableMenu() {}
 
-void SequenceMenu::update() {
+void TableMenu::update() {
     std::cout << this->TITLE << this->INFO;
     std::cout << "  [\033[93m0\033[0m] - Go back\n"
-              << "  [\033[93m1\033[0m] - Region sequence\n"
-              << "  [\033[93m2\033[0m] - SOORP sequence\n"
-              << "  [\033[93m3\033[0m] - Settlement sequence\n";
+              << "  [\033[93m1\033[0m] - Region table\n"
+              << "  [\033[93m2\033[0m] - SOORP table\n"
+              << "  [\033[93m3\033[0m] - Settlement table\n";
     int option = Prompt::getInput(3);
     switch (option) {
     case 0:
@@ -206,10 +173,13 @@ void SequenceMenu::update() {
         this->option = option;
         break;
     default:
+        this->searchedString = Prompt::getStringInput();
         this->option = option;
         break;
     }
     std::system("cls");
 }
 
-int SequenceMenu::getOption() { return this->option; }
+int TableMenu::getOption() { return this->option; }
+
+std::string &TableMenu::getSearchedString() { return this->searchedString; }

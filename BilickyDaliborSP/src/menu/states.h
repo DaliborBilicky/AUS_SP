@@ -4,23 +4,10 @@
 #include <libds/heap_monitor.h>
 #include <string>
 
-class LevelMenu {
-  private:
-    const std::string TITLE = "\n[LEVEL MENU]\n";
-    const std::string INFO = " * Choose level to use.\n";
-    CurrentState *currentState;
-
-  public:
-    LevelMenu(CurrentState *currentState);
-    ~LevelMenu();
-
-    void update();
-};
-
 class MainMenu {
   private:
-    const std::string TITLE = "\n[\033[95mMAIN MENU\033[0m]\n";
-    const std::string INFO = " \033[95m*\033[0m Choose predicate to print "
+    const std::string TITLE = "\n[\033[31mMAIN MENU\033[0m]\n";
+    const std::string INFO = " \033[31m*\033[0m Choose predicate to print "
                              "specific territorial units.\n";
     CurrentState *currentState;
 
@@ -33,11 +20,11 @@ class MainMenu {
 
 class ManualIteratorMenu {
   private:
-    const std::string TITLE = "\n[\033[93mMANUAL ITERATOR MENU\033[0m]\n";
+    const std::string TITLE = "\n[\033[95mMANUAL ITERATOR MENU\033[0m]\n";
     const std::string INFO =
-        " \033[93m*\033[0m Choose if you want to go up or down in hierarchy.\n";
+        " \033[95m*\033[0m Choose if you want to go up or down in hierarchy.\n";
     const std::string SUB_INFO =
-        " \033[93m*\033[0m Choose which node you want to access.\n";
+        " \033[95m*\033[0m Choose which node you want to access.\n";
     CurrentState *currentState;
     int option = 0;
 
@@ -49,26 +36,28 @@ class ManualIteratorMenu {
     int getOption();
 };
 
-class SequenceMenu {
+class TableMenu {
   private:
-    const std::string TITLE = "\n[\033[93mSEQUENCE MENU\033[0m]\n";
+    const std::string TITLE = "\n[\033[93mTABLE MENU\033[0m]\n";
     const std::string INFO =
-        " \033[93m*\033[0m Choose type of sequence to work with.\n";
+        " \033[93m*\033[0m Choose type of table to work with.\n";
     CurrentState *currentState;
     int option = 0;
+    std::string searchedString = "";
 
   public:
-    SequenceMenu(CurrentState *currentState);
-    ~SequenceMenu();
+    TableMenu(CurrentState *currentState);
+    ~TableMenu();
 
     void update();
     int getOption();
+    std::string &getSearchedString();
 };
 
 class TypeMenu {
   private:
-    const std::string TITLE = "\n[\033[92mTYPE MENU\033[0m]\n";
-    const std::string INFO = " \033[92m*\033[0m Choose the type of "
+    const std::string TITLE = "\n[\033[94mTYPE MENU\033[0m]\n";
+    const std::string INFO = " \033[94m*\033[0m Choose the type of "
                              "territorial unit you want to print out.\n";
     CurrentState *currentState;
     int option = 0;
@@ -101,8 +90,8 @@ class ContainsStringMenu {
 
 class StartsWithStrMenu {
   private:
-    const std::string TITLE = "\n[\033[94mSTARTS WITH STRING MENU\033[0m]\n";
-    const std::string INFO = " \033[94m*\033[0m Type to select the territorial "
+    const std::string TITLE = "\n[\033[92mSTARTS WITH STRING MENU\033[0m]\n";
+    const std::string INFO = " \033[92m*\033[0m Type to select the territorial "
                              "units which starts with typed string.\n";
     CurrentState *currentState;
     std::string searchedString = "";

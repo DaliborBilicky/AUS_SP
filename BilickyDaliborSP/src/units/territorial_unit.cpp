@@ -22,23 +22,3 @@ std::ostream &operator<<(std::ostream &os,
     territorialUnit.print(os);
     return os;
 }
-
-std::ostream &operator<<(std::ostream &os, const UnitType &unitType) {
-    std::string currentSeqName = "";
-    switch (unitType) {
-    case UnitType::REGION:
-        currentSeqName = "REGION";
-        break;
-    case UnitType::SOORP:
-        currentSeqName = "SOORP";
-        break;
-    case UnitType::SETTLEMENT:
-        currentSeqName = "SETTLEMENT";
-        break;
-    }
-    os << std::endl
-       << "[\033[95mCURRENT SEQUENCE\033[0m]\n"
-       << " \033[95m*\033[0m Current sequence is: " << "\033[95m"
-       << currentSeqName << "\033[0m";
-    return os;
-}

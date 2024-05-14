@@ -40,7 +40,7 @@ void ManualIterator::printOptions(int option) {
     } else if (option == 2 && this->level < 3) {
         for (int i = 0; i < degree; i++) {
             son = this->hierarchy->accessSon(*this->currentPos, i);
-            std::cout << "  [" << "\033[93m" << i << "\033[0m" << "] - "
+            std::cout << "  [" << "\033[95m" << i << "\033[0m" << "] - "
                       << son->data_->getName() << std::endl;
         }
         int index = Prompt::getInput(--degree);

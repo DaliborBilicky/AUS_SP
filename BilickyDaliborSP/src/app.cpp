@@ -14,6 +14,7 @@
 
 App::App()
     : typeMenu(TypeMenu(&this->currentState)),
+      tableMenu(TableMenu(&this->currentState)),
       mItMenu(ManualIteratorMenu(&this->currentState)),
       containsStringMenu(ContainsStringMenu(&this->currentState)),
       startsWithStrMenu(StartsWithStrMenu(&this->currentState)) {
@@ -34,34 +35,31 @@ App::~App() {
             delete node->data_;
             node->data_ = nullptr;
         });
+
+    for (auto &item : this->settlements) {
+        delete item.data_;
+        item.data_ = nullptr;
+    }
 }
 
 void App::mainLoop() {
-    LevelMenu levelMenu(&this->currentState);
     MainMenu mainMenu(&this->currentState);
-    SequenceMenu seqMenu(&this->currentState);
     bool a = true;
 
     while (true) {
         switch (this->currentState.getState()) {
         case State::EXIT:
             return;
-        case State::LEVEL_MENU:
-            levelMenu.update();
-            break;
         case State::MAIN_MENU:
             mainMenu.update();
+            break;
+        case State::TABEL_MENU:
+            this->tableMenu.update();
+            this->searchInTable();
             break;
         case State::MANUAL_ITERATOR_MENU:
             this->mItMenu.update();
             this->moveManualIterator();
-            break;
-        case State::SEQUENCE_MENU:
-            seqMenu.update();
-            if (seqMenu.getOption() == 0) {
-                break;
-            }
-            this->currentSeq = static_cast<UnitType>(seqMenu.getOption());
             break;
         case State::STARTS_WITH_STR_MENU:
             this->startsWithStrMenu.update();
@@ -76,11 +74,8 @@ void App::mainLoop() {
             this->processIsType();
             break;
         }
-
-        if (this->currentState.getLevel() == Level::LEVEL_2) {
+        if (this->currentState.getState() != State::EXIT) {
             std::cout << this->manualIt << std::endl;
-        } else if (this->currentState.getLevel() == Level::LEVEL_1) {
-            std::cout << this->currentSeq << std::endl;
         }
     }
 }
@@ -106,7 +101,9 @@ void App::processStartsWithString() {
             return true;
         };
 
-    this->proccessData(predicate);
+    auto begin =
+        PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
+    Algorithms::process(begin, this->czechia.end(), predicate, this->results);
     this->printOutput();
 }
 
@@ -136,7 +133,9 @@ void App::processContainsString() {
             return index == strLover.size();
         };
 
-    this->proccessData(predicate);
+    auto begin =
+        PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
+    Algorithms::process(begin, this->czechia.end(), predicate, this->results);
     this->printOutput();
 }
 
@@ -160,7 +159,9 @@ void App::processIsType() {
             return false;
         };
 
-    this->proccessData(predicate);
+    auto begin =
+        PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
+    Algorithms::process(begin, this->czechia.end(), predicate, this->results);
     this->printOutput();
 }
 
@@ -172,42 +173,53 @@ void App::moveManualIterator() {
     this->manualIt.printOptions(option);
 }
 
-void App::proccessData(std::function<bool(TerritorialUnit *)> &predicate) {
-    if (this->currentState.getLevel() == Level::LEVEL_2) {
+void App::searchInTable() {
+    Region **region = nullptr;
+    Soorp **soorp = nullptr;
+    ds::amt::SinglyLinkedSequence<Settlement *> **settlement = nullptr;
+    if (this->tableMenu.getOption() == 0) {
+        return;
+    }
+    std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
 
-        auto begin =
-            PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
-        Algorithms::process(begin, this->czechia.end(), predicate,
-                            this->results);
-
-    } else if (this->currentState.getLevel() == Level::LEVEL_1) {
-
-        switch (this->currentSeq) {
-        case UnitType::REGION:
-            Algorithms::process(this->regions.begin(), this->regions.end(),
-                                predicate, this->results);
-            break;
-        case UnitType::SOORP:
-            Algorithms::process(this->soorps.begin(), this->soorps.end(),
-                                predicate, this->results);
-            break;
-        case UnitType::SETTLEMENT:
-            Algorithms::process(this->settlements.begin(),
-                                this->settlements.end(), predicate,
-                                this->results);
-            break;
+    switch (this->tableMenu.getOption()) {
+    case 1:
+        if (!this->regions.tryFind(this->tableMenu.getSearchedString(),
+                                   region)) {
+            std::cout << " \033[93m*\033[0m Region not found.\n";
+            return;
         }
+        std::cout << "  " << **region << std::endl;
+        break;
+    case 2:
+        if (!this->soorps.tryFind(this->tableMenu.getSearchedString(), soorp)) {
+            std::cout << " \033[93m*\033[0m Soorp not found.\n";
+            return;
+        }
+        std::cout << "  " << **soorp << std::endl;
+        break;
+    case 3:
+        if (!this->settlements.tryFind(this->tableMenu.getSearchedString(),
+                                       settlement)) {
+            std::cout << " \033[93m*\033[0m Settlement not found.\n";
+            return;
+        }
+        std::string key = this->tableMenu.getSearchedString();
+        for (auto &item : *this->settlements.find(key)) {
+            std::cout << "  " << *item << std::endl;
+        }
+        break;
     }
 }
 
 void App::printOutput() {
-    std::cout << "\n[\033[95mOUTPUT\033[0m]\n";
+    std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
 
     if (results.size() == 0) {
-        std::cout << " \033[95m*\033[0m There is nothing with this option."
+        std::cout << " \033[93m*\033[0m There is nothing with this option."
                   << std::endl;
     } else {
-        std::cout << " \033[95m*\033[0m Number of results: " << results.size()
+        std::cout << " \033[93m*\033[0m Number of results: " << results.size()
                   << std::endl
                   << std::endl;
 
