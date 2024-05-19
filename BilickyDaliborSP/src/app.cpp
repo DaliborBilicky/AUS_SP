@@ -5,11 +5,13 @@
 #include "menu/states.h"
 #include "units/territorial_unit.h"
 #include "units/units.h"
+#include "menu/prompt.h"
 #include <functional>
 #include <iostream>
 #include <libds/amt/explicit_hierarchy.h>
 #include <libds/amt/implicit_sequence.h>
 #include <libds/heap_monitor.h>
+#include <libds/adt/sorts.h>
 #include <string>
 
 App::App()
@@ -213,7 +215,29 @@ void App::searchInTable() {
 }
 
 void App::printOutput() {
-    std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
+    std::cout << "\n[\033[93mORDER FILTERED DATA\033[0m]\n";
+    std::cout << "  [\033[93m0\033[0m] - Alphabetically\n"
+              << "  [\033[93m1\033[0m] - ConsonantCount\n";
+    int number = Prompt::getInput(1);
+    if (number == 0) {
+		ds::adt::QuickSort<TerritorialUnit*> quick;
+		quick.sort(
+			results,
+			[](TerritorialUnit *const &a, TerritorialUnit *const &b) -> bool {
+				return a->getName() < b->getName();
+			});
+		std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
+
+    } else {
+		ds::adt::QuickSort<TerritorialUnit*> quick;
+		quick.sort(
+			results,
+			[](TerritorialUnit *const &a, TerritorialUnit *const &b) -> bool {
+				return a->getName().size() < b->getName().size();
+			});
+		std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
+    } 
+
 
     if (results.size() == 0) {
         std::cout << " \033[93m*\033[0m There is nothing with this option."
