@@ -129,16 +129,46 @@ void Algorithms::parseCSV(
     ifs.close();
 }
 
-std::string &Algorithms::lowerCase(std::string &str) {
+
+void Algorithms::changeCase(std::string &str, bool toLower) {
     for (char &c : str) {
-        c = std::tolower(c, std::locale("Czech_Czechia.1250"));
+		if (toLower) {
+			c = std::tolower(c, std::locale("Czech_Czechia.1250"));
+		} else {
+            c = std::toupper(c, std::locale("Czech_Czechia.1250"));
+		}
     }
-    return str;
 }
 
-std::string &Algorithms::upperCase(std::string &str) {
-    for (char &c : str) {
-        c = std::toupper(c, std::locale("Czech_Czechia.1250"));
+int Algorithms::countConsonant(const std::string& name) {
+    std::string lower = "bcËdÔfghjklmnÚpr¯sötùvzû";
+    std::string upper = "BC»DœFGHJKLMN“PRÿSäTçVZé";
+    int number = 0;
+
+    for (int i = 0; i < name.length(); i++) {
+        for (int j = 0; j < lower.length(); j++) {
+            if (name[i] == lower[j] || name[i] == upper[j]) {
+                number++;
+            }
+        }
+        if (i < name.size() - 1 && name.substr(i, 2) == "ch" ||
+            name.substr(i, 2) == "Ch") {
+            number -= 2;
+            number++;
+        }
     }
-    return str;
+    return number;
+}
+
+int Algorithms::getWeight(char c) { 
+    // _ pozicia Ch index 18 a ch index 60
+	std::string alphabet = 
+        " ()-.A¡BC»DœE…ÃFGH_IÕJKLMN“O”PQRÿSäTçU⁄ŸVWXY›Zé"
+	    "a·bcËdÔeÈÏfgh_iÌjklmnÚoÛpqr¯sötùu˙˘vwxy˝zû";
+	for (int i = 0; i < alphabet.length(); i++) {
+		if (c == alphabet[i]) {
+			return i;
+		}
+	}
+    return -1; 
 }

@@ -87,10 +87,10 @@ void App::processStartsWithString() {
         return;
     }
 
-    std::string strLover =
-        Algorithms::lowerCase(this->startsWithStrMenu.getSearchedString());
-    std::string strUpper =
-        Algorithms::upperCase(this->startsWithStrMenu.getSearchedString());
+    std::string strLover = this->startsWithStrMenu.getSearchedString();
+	Algorithms::changeCase(strLover, true);
+    std::string strUpper = this->startsWithStrMenu.getSearchedString();
+	Algorithms::changeCase(strUpper, false);
 
     std::function<bool(TerritorialUnit *)> predicate =
         [&](TerritorialUnit *unit) {
@@ -114,10 +114,10 @@ void App::processContainsString() {
         return;
     }
 
-    std::string strLover =
-        Algorithms::lowerCase(this->containsStringMenu.getSearchedString());
-    std::string strUpper =
-        Algorithms::upperCase(this->containsStringMenu.getSearchedString());
+    std::string strLover = this->containsStringMenu.getSearchedString();
+	Algorithms::changeCase(strLover, true);
+    std::string strUpper = this->containsStringMenu.getSearchedString();
+	Algorithms::changeCase(strUpper, false);
 
     std::function<bool(TerritorialUnit *)> predicate =
         [&](TerritorialUnit *unit) {
@@ -222,22 +222,58 @@ void App::printOutput() {
     if (number == 0) {
 		ds::adt::QuickSort<TerritorialUnit*> quick;
 		quick.sort(
-			results,
-			[](TerritorialUnit *const &a, TerritorialUnit *const &b) -> bool {
-				return a->getName() < b->getName();
+			this->results,
+			[&](TerritorialUnit *const &a, TerritorialUnit *const &b) -> bool {
+                std::string name1 = a->getName(); 
+                std::string name2 = b->getName();
+                size_t len = std::min(name1.length(), name2.length());
+
+                for (size_t i = 0; i < len; i++) {
+                    if (name1[i] == name2[i]) {
+                        continue;
+                    }
+
+                    int weight1 = Algorithms::getWeight(name1[i]);
+					int weight2 = Algorithms::getWeight(name2[i]);
+
+                    if (i < len - 1) {
+                        std::string substr1 = name1.substr(i, 2);
+						std::string substr2 = name2.substr(i, 2);
+            
+						if (substr1 == "ch") {
+							return 60 < weight2;
+						}
+						if (substr1 == "Ch") {
+							return 18 < weight2;
+						}
+						if (substr2 == "ch") {
+							return weight1 < 60;
+						}
+						if (substr2 == "Ch") {
+							return weight1 < 18;
+						}
+                    }
+					
+					if (weight1 < weight2) {
+						return true;
+					}
+					if (weight1 > weight2) {
+						return false;
+					}
+                }
+                return name1.length() < name2.length();
 			});
-		std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
 
     } else {
 		ds::adt::QuickSort<TerritorialUnit*> quick;
 		quick.sort(
-			results,
+			this->results,
 			[](TerritorialUnit *const &a, TerritorialUnit *const &b) -> bool {
-				return a->getName().size() < b->getName().size();
+				return Algorithms::countConsonant(a->getName()) 
+                    < Algorithms::countConsonant(b->getName());
 			});
-		std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
     } 
-
+    std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
 
     if (results.size() == 0) {
         std::cout << " \033[93m*\033[0m There is nothing with this option."

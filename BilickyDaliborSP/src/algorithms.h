@@ -5,6 +5,7 @@
 #include <libds/adt/table.h>
 #include <libds/amt/explicit_hierarchy.h>
 #include <libds/amt/implicit_sequence.h>
+#include <libds/amt/explicit_sequence.h>
 #include <libds/heap_monitor.h>
 #include <string>
 
@@ -23,8 +24,9 @@ class Algorithms {
              ds::adt::Table<std::string, Region *> &region,
              ds::amt::MultiWayExplicitHierarchy<TerritorialUnit *> &czechia);
 
-    static std::string &lowerCase(std::string &str);
-    static std::string &upperCase(std::string &str);
+    static void changeCase(std::string &str, bool toLower);
+    static int countConsonant(const std::string& name);
+    static int getWeight(char c);
 };
 
 template <typename IteratorT, typename PredicateParam, typename StructT>

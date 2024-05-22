@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <libds/heap_monitor.h>
+#include <locale>
 #include <string>
 
 class TerritorialUnit {
