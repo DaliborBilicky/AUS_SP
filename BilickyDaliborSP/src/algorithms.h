@@ -1,6 +1,7 @@
 #pragma once
 #include "units/territorial_unit.h"
 #include "units/units.h"
+#include "ds_handler.h"
 #include <functional>
 #include <libds/adt/table.h>
 #include <libds/amt/explicit_hierarchy.h>
@@ -17,11 +18,7 @@ class Algorithms {
                         StructT &results);
 
     static void
-    parseCSV(const std::string &path,
-             ds::adt::Table<std::string,
-					ds::amt::SinglyLinkedSequence<Settlement *> *> &settlements,
-             ds::adt::Table<std::string, Soorp *> &soorps,
-             ds::adt::Table<std::string, Region *> &region,
+    parseCSV(const std::string &path, DSHandler& dsHandler,
              ds::amt::MultiWayExplicitHierarchy<TerritorialUnit *> &czechia);
 
     static void changeCase(std::string &str, bool toLower);

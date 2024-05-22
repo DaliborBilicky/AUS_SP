@@ -26,8 +26,8 @@ App::App()
     this->czechia.emplaceRoot().data_ = cr;
     this->manualIt = ManualIterator(&this->czechia);
 
-    Algorithms::parseCSV("./res/CR_win1250.csv", this->settlements,
-                         this->soorps, this->regions, this->czechia);
+    Algorithms::parseCSV(
+        "./res/CR_win1250.csv", this->dsHandler, this->czechia);
 }
 
 App::~App() {
@@ -37,31 +37,38 @@ App::~App() {
             delete node->data_;
             node->data_ = nullptr;
         });
-
-    for (auto &item : this->settlements) {
-        delete item.data_;
-        item.data_ = nullptr;
-    }
 }
 
 void App::mainLoop() {
     MainMenu mainMenu(&this->currentState);
-    bool a = true;
+    AppTypeMenu appTypeMenu(&this->currentState);
+    SequenceMenu seqMenu(&this->currentState);
 
     while (true) {
         switch (this->currentState.getState()) {
         case State::EXIT:
             return;
+        case State::APP_TYPE_MENU:
+            appTypeMenu.update();
+            break;
         case State::MAIN_MENU:
             mainMenu.update();
             break;
         case State::TABEL_MENU:
             this->tableMenu.update();
             this->searchInTable();
+            this->printOutput();
             break;
         case State::MANUAL_ITERATOR_MENU:
             this->mItMenu.update();
             this->moveManualIterator();
+            break;
+        case State::SEQ_MENU:
+            seqMenu.update();
+            if (seqMenu.getOption() == 0) {
+                break;
+            }
+            this->currentSeq = static_cast<UnitType>(seqMenu.getOption());
             break;
         case State::STARTS_WITH_STR_MENU:
             this->startsWithStrMenu.update();
@@ -71,14 +78,17 @@ void App::mainLoop() {
             this->containsStringMenu.update();
             this->processContainsString();
             break;
-        case State::TYPE_MENU:
+        case State::UNIT_TYPE_MENU:
             this->typeMenu.update();
             this->processIsType();
             break;
         }
-        if (this->currentState.getState() != State::EXIT) {
-            std::cout << this->manualIt << std::endl;
-        }
+
+		if (this->currentState.getAppType() == AppType::HIERARCHICAL) {
+		    std::cout << this->manualIt << std::endl;
+	    } else if (this->currentState.getAppType() == AppType::SEQUENTIAL) {
+			std::cout << this->currentSeq << std::endl;
+        } 
     }
 }
 
@@ -103,9 +113,8 @@ void App::processStartsWithString() {
             return true;
         };
 
-    auto begin =
-        PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
-    Algorithms::process(begin, this->czechia.end(), predicate, this->results);
+    this->proccessData(predicate);
+    this->sortData();
     this->printOutput();
 }
 
@@ -135,9 +144,8 @@ void App::processContainsString() {
             return index == strLover.size();
         };
 
-    auto begin =
-        PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
-    Algorithms::process(begin, this->czechia.end(), predicate, this->results);
+    this->proccessData(predicate);
+    this->sortData();
     this->printOutput();
 }
 
@@ -161,9 +169,8 @@ void App::processIsType() {
             return false;
         };
 
-    auto begin =
-        PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
-    Algorithms::process(begin, this->czechia.end(), predicate, this->results);
+    this->proccessData(predicate);
+    this->sortData();
     this->printOutput();
 }
 
@@ -176,45 +183,28 @@ void App::moveManualIterator() {
 }
 
 void App::searchInTable() {
-    Region **region = nullptr;
-    Soorp **soorp = nullptr;
-    ds::amt::SinglyLinkedSequence<Settlement *> **settlement = nullptr;
     if (this->tableMenu.getOption() == 0) {
         return;
     }
-    std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
-
-    switch (this->tableMenu.getOption()) {
-    case 1:
-        if (!this->regions.tryFind(this->tableMenu.getSearchedString(),
-                                   region)) {
-            std::cout << " \033[93m*\033[0m Region not found.\n";
-            return;
-        }
-        std::cout << "  " << **region << std::endl;
-        break;
-    case 2:
-        if (!this->soorps.tryFind(this->tableMenu.getSearchedString(), soorp)) {
-            std::cout << " \033[93m*\033[0m Soorp not found.\n";
-            return;
-        }
-        std::cout << "  " << **soorp << std::endl;
-        break;
-    case 3:
-        if (!this->settlements.tryFind(this->tableMenu.getSearchedString(),
-                                       settlement)) {
-            std::cout << " \033[93m*\033[0m Settlement not found.\n";
-            return;
-        }
-        std::string key = this->tableMenu.getSearchedString();
-        for (auto &item : *this->settlements.find(key)) {
-            std::cout << "  " << *item << std::endl;
-        }
-        break;
-    }
+    UnitType type = static_cast<UnitType>(this->tableMenu.getOption());
+    this->dsHandler.findInTable(
+        type, this->results, this->tableMenu.getSearchedString());
 }
 
-void App::printOutput() {
+void App::proccessData(std::function<bool (TerritorialUnit*)>& predicate) {
+	if (this->currentState.getAppType() == AppType::HIERARCHICAL) {
+		auto begin =
+			PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
+		Algorithms::process(
+            begin, this->czechia.end(), predicate, this->results);
+
+	} else if (this->currentState.getAppType() == AppType::SEQUENTIAL) {
+		this->dsHandler.filterFromSequence(
+            this->currentSeq, this->results, predicate);
+	}
+}
+
+void App::sortData() {
     std::cout << "\n[\033[93mORDER FILTERED DATA\033[0m]\n";
     std::cout << "  [\033[93m0\033[0m] - Alphabetically\n"
               << "  [\033[93m1\033[0m] - ConsonantCount\n";
@@ -273,6 +263,9 @@ void App::printOutput() {
                     < Algorithms::countConsonant(b->getName());
 			});
     } 
+}
+
+void App::printOutput() {
     std::cout << "\n[\033[93mOUTPUT\033[0m]\n";
 
     if (results.size() == 0) {

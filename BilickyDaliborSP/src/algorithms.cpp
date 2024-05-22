@@ -8,12 +8,7 @@
 #include <sstream>
 #include <string>
 
-void Algorithms::parseCSV(
-    const std::string &path,
-    ds::adt::Table<std::string, ds::amt::SinglyLinkedSequence<Settlement *> *>
-        &settlements,
-    ds::adt::Table<std::string, Soorp *> &soorps,
-    ds::adt::Table<std::string, Region *> &regions,
+void Algorithms::parseCSV(const std::string &path, DSHandler& dsHandler,
     ds::amt::MultiWayExplicitHierarchy<TerritorialUnit *> &czechia) {
 
     auto *root = czechia.accessRoot();
@@ -50,7 +45,7 @@ void Algorithms::parseCSV(
             regionCounter++;
             czechia.emplaceSon(*root, regionCounter).data_ = region;
 
-            regions.insert(name, region);
+            dsHandler.addRegion(region);
 
             sStream = std::stringstream(line);
         }
@@ -72,7 +67,7 @@ void Algorithms::parseCSV(
             auto *region = czechia.accessSon(*root, regionCounter);
             czechia.emplaceSon(*region, soorpCounter).data_ = soorp;
 
-            soorps.insert(name, soorp);
+            dsHandler.addSoorp(soorp);
         }
 
         std::getline(sStream, name, ';');
@@ -118,13 +113,7 @@ void Algorithms::parseCSV(
         auto *soorp = czechia.accessSon(*region, soorpCounter);
         czechia.emplaceSon(*soorp, settlementCounter).data_ = settlement;
 
-        if (settlements.contains(name)) {
-            settlements.find(name)->insertFirst().data_ = settlement;
-            continue;
-        }
-        auto *synonyms = new ds::amt::SinglyLinkedSequence<Settlement *>();
-        synonyms->insertFirst().data_ = settlement;
-        settlements.insert(name, synonyms);
+        dsHandler.addSettlement(settlement);
     }
     ifs.close();
 }

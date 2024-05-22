@@ -4,6 +4,19 @@
 #include <libds/heap_monitor.h>
 #include <string>
 
+class AppTypeMenu {
+  private:
+    const std::string TITLE = "\n[\033[93mAPP TYPE MENU\033[0m]\n";
+    const std::string INFO = " \033[93m*\033[0m Choose type of app to use.\n";
+    CurrentState *currentState;
+
+  public:
+    AppTypeMenu(CurrentState* currentState);
+    ~AppTypeMenu();
+    
+    void update();
+};
+
 class MainMenu {
   private:
     const std::string TITLE = "\n[\033[31mMAIN MENU\033[0m]\n";
@@ -102,4 +115,20 @@ class StartsWithStrMenu {
 
     void update();
     std::string &getSearchedString();
+};
+
+class SequenceMenu {
+  private:
+    const std::string TITLE = "\n[\033[93mSEQUENCE MENU\033[0m]\n";
+    const std::string INFO =
+        " \033[93m*\033[0m Choose type of sequence to work with.\n";
+    CurrentState *currentState;
+    int option = 0;
+
+  public:
+    SequenceMenu(CurrentState *currentState);
+    ~SequenceMenu();
+
+    void update();
+    int getOption();
 };

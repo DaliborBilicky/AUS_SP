@@ -2,6 +2,7 @@
 #include "manual_iterator.h"
 #include "menu/states.h"
 #include "units/units.h"
+#include "ds_handler.h"
 #include <functional>
 #include <libds/adt/table.h>
 #include <libds/amt/explicit_hierarchy.h>
@@ -14,10 +15,6 @@ using PreOrderIterator = ds::amt::MultiWayExplicitHierarchy<
 class App {
   private:
     ds::amt::ImplicitSequence<TerritorialUnit *> results;
-    ds::adt::SortedSequenceTable<std::string,
-				ds::amt::SinglyLinkedSequence<Settlement *> *> settlements;
-    ds::adt::SortedSequenceTable<std::string, Soorp *> soorps;
-    ds::adt::SortedSequenceTable<std::string, Region *> regions;
     ds::amt::MultiWayExplicitHierarchy<TerritorialUnit *> czechia;
     CurrentState currentState;
     TypeMenu typeMenu;
@@ -26,6 +23,8 @@ class App {
     ContainsStringMenu containsStringMenu;
     StartsWithStrMenu startsWithStrMenu;
     ManualIterator manualIt;
+    DSHandler dsHandler;
+    UnitType currentSeq = UnitType::REGION;
 
     void processStartsWithString();
     void processContainsString();
@@ -33,6 +32,8 @@ class App {
     void moveManualIterator();
     void searchInTable();
     void printOutput();
+    void sortData();
+    void proccessData(std::function<bool(TerritorialUnit *)> &predicate);
 
   public:
     App();

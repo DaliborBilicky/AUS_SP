@@ -5,6 +5,33 @@
 #include <libds/heap_monitor.h>
 #include <string>
 
+// AppTypeMenu class ------------------------------------------------------
+AppTypeMenu::AppTypeMenu(CurrentState *currentState) 
+    : currentState(currentState) {}
+
+AppTypeMenu::~AppTypeMenu() {}
+
+void AppTypeMenu::update() {
+    std::cout << this->TITLE << this->INFO;
+    std::cout << "  [\033[92m0\033[0m] - Exit program\n"
+              << "  [\033[96m1\033[0m] - Hierarchical\n"
+              << "  [\033[94m2\033[0m] - Sequential\n";
+    int option = Prompt::getInput(2);
+    this->currentState->setState(State::MAIN_MENU);
+    switch (option) {
+    case 0:
+        this->currentState->setState(State::EXIT);
+        break;
+    case 1:
+        this->currentState->setAppType(AppType::HIERARCHICAL);
+        break;
+    case 2:
+        this->currentState->setAppType(AppType::SEQUENTIAL);
+        break;
+    }
+    std::system("cls");
+}
+
 // MainMenu class ------------------------------------------------------
 MainMenu::MainMenu(CurrentState *currentState) : currentState(currentState) {}
 
@@ -12,17 +39,22 @@ MainMenu::~MainMenu() {}
 
 void MainMenu::update() {
     std::cout << this->TITLE << this->INFO;
-    std::cout << "  [\033[31m0\033[0m] - Exit\n"
+    std::cout << "  [\033[31m0\033[0m] - Go back\n"
               << "  [\033[93m1\033[0m] - Search with tabels\n"
               << "  [\033[92m2\033[0m] - Starts with string\n"
               << "  [\033[96m3\033[0m] - Contains string\n"
-              << "  [\033[94m4\033[0m] - Is specific territorial type\n"
-              << "  [\033[95m5\033[0m] - Move in hierarchy\n";
+              << "  [\033[94m4\033[0m] - Is specific territorial type\n";
+
+	if (this->currentState->getAppType() == AppType::HIERARCHICAL) {
+        std::cout << "  [\033[95m5\033[0m] - Move in hierarchy\n";
+    } else if (this->currentState->getAppType() == AppType::SEQUENTIAL) {
+        std::cout << "  [\033[95m5\033[0m] - Pick type of sequence\n";
+    }
 
     int option = Prompt::getInput(5);
     switch (option) {
     case 0:
-        this->currentState->setState(State::EXIT);
+        this->currentState->setState(State::APP_TYPE_MENU);
         break;
     case 1:
         this->currentState->setState(State::TABEL_MENU);
@@ -34,10 +66,14 @@ void MainMenu::update() {
         this->currentState->setState(State::CONTAINS_STR_MENU);
         break;
     case 4:
-        this->currentState->setState(State::TYPE_MENU);
+        this->currentState->setState(State::UNIT_TYPE_MENU);
         break;
     case 5:
-        this->currentState->setState(State::MANUAL_ITERATOR_MENU);
+		if (this->currentState->getAppType() == AppType::HIERARCHICAL) {
+			this->currentState->setState(State::MANUAL_ITERATOR_MENU);
+		} else if (this->currentState->getAppType() == AppType::SEQUENTIAL) {
+			this->currentState->setState(State::SEQ_MENU);
+		}
         break;
     }
     std::system("cls");
@@ -183,3 +219,30 @@ void TableMenu::update() {
 int TableMenu::getOption() { return this->option; }
 
 std::string &TableMenu::getSearchedString() { return this->searchedString; }
+
+// SequenceMenu class ------------------------------------------------------
+SequenceMenu::SequenceMenu(CurrentState *currentState) 
+    : currentState(currentState) {}
+
+SequenceMenu::~SequenceMenu() {}
+
+void SequenceMenu::update() {
+    std::cout << this->TITLE << this->INFO;
+    std::cout << "  [\033[93m0\033[0m] - Go back\n"
+              << "  [\033[93m1\033[0m] - Region sequence\n"
+              << "  [\033[93m2\033[0m] - SOORP sequence\n"
+              << "  [\033[93m3\033[0m] - Settlement sequence\n";
+    int option = Prompt::getInput(3);
+    switch (option) {
+    case 0:
+        this->currentState->setState(State::MAIN_MENU);
+        this->option = option;
+        break;
+    default:
+        this->option = option;
+        break;
+    }
+    std::system("cls");
+}
+
+int SequenceMenu::getOption() { return this->option; }
