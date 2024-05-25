@@ -196,7 +196,8 @@ void App::proccessData(std::function<bool (TerritorialUnit*)>& predicate) {
 	if (this->currentState.getAppType() == AppType::HIERARCHICAL) {
 		auto begin =
 			PreOrderIterator(&this->czechia, this->manualIt.getCurrentPos());
-		Algorithms::process(
+		Algorithms alg;
+		alg.process(
             begin, this->czechia.end(), predicate, this->results);
 
 	} else if (this->currentState.getAppType() == AppType::SEQUENTIAL) {
@@ -215,7 +216,50 @@ void App::sortData() {
 		sorter.sort(
 			this->results,
 			[&](TerritorialUnit *const &a, TerritorialUnit *const &b) -> int {
-				return std::strcoll(a->getName().c_str(), b->getName().c_str());
+                std::string name1 = a->getName();
+				std::string name2 = b->getName();
+				size_t len = std::min(name1.length(), name2.length());
+			 
+				for (size_t i = 0; i < len; i++) {
+					if (name1[i] == name2[i]) {
+						continue;
+					}
+					int weight1 = Algorithms::getWeight(name1[i]);
+					int weight2 = Algorithms::getWeight(name2[i]);
+			 
+					if (i < len - 1) {
+						std::string substr1 = name1.substr(i, 2);
+						std::string substr2 = name2.substr(i, 2);
+			 
+						if (substr1 == "ch") {
+							return 60 < weight2 ? -1 : 1;
+						}
+						if (substr1 == "Ch" || substr1 == "CH") {
+							return 18 < weight2 ? -1 : 1;
+						}
+						if (substr2 == "ch") {
+							return weight1 < 60 ? -1 : 1;
+						}
+						if (substr2 == "Ch" || substr1 == "CH") {
+							return weight1 < 18 ? -1 : 1;
+						}
+					}
+			 
+					if (weight1 < weight2) {
+						return -1;
+					}
+					if (weight1 > weight2) {
+						return 1;
+					}
+				}
+			 
+				if (name1.length() < name2.length()) {
+					return -1;
+				}
+				if (name1.length() > name2.length()) {
+					return 1;
+				}
+				return 0;
 			});
 
     } else {

@@ -13,7 +13,7 @@
 class Algorithms {
   public:
     template <typename IteratorT, typename PredicateParam, typename StructT>
-    static void process(IteratorT begin, IteratorT end,
+    void process(IteratorT begin, IteratorT end,
                         std::function<bool(PredicateParam)> predicate,
                         StructT &results);
 

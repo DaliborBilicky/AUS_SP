@@ -36,19 +36,20 @@ void DSHandler::addSettlement(Settlement *unit) {
 
 void DSHandler::filterFromSequence(UnitType type, IS &results, 
         std::function<bool(TerritorialUnit *)> &predicate) {
+    Algorithms alg;
 	switch (type) { 
         case UnitType::REGION:
-			Algorithms::process(
+			alg.process(
                 this->regions.begin(), this->regions.end(), 
                 predicate, results);
             break;
         case UnitType::SOORP:
-			Algorithms::process(
+			alg.process(
                 this->soorps.begin(), this->soorps.end(), 
                 predicate, results);
             break;
         case UnitType::SETTLEMENT:
-			Algorithms::process(
+			alg.process(
                 this->settlements.begin(), this->settlements.end(), 
                 predicate, results);
             break;
