@@ -103,8 +103,6 @@ namespace ds::adt {
     template<typename T>
     ADT& ImplicitQueue<T>::assign(const ADT& other)
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 
@@ -124,32 +122,24 @@ namespace ds::adt {
     template<typename T>
     bool ImplicitQueue<T>::equals(const ADT& other)
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 
     template<typename T>
     void ImplicitQueue<T>::push(T element)
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 
     template<typename T>
     T& ImplicitQueue<T>::peek()
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 
     template<typename T>
     T ImplicitQueue<T>::pop()
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 

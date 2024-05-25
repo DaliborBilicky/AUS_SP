@@ -21,7 +21,7 @@
     <ClCompile Include="src\units\territorial_unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\algorithms.cpp">
+    <ClCompile Include="src\utils\algorithms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\menu\current_state.cpp">
@@ -39,10 +39,10 @@
     <ClCompile Include="src\app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\manual_iterator.cpp">
+    <ClCompile Include="src\utils\manual_iterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ds_handler.cpp">
+    <ClCompile Include="src\utils\ds_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="src\units\territorial_unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\algorithms.h">
+    <ClInclude Include="src\utils\algorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\menu\current_state.h">
@@ -71,10 +71,13 @@
     <ClInclude Include="src\app.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\manual_iterator.h">
+    <ClInclude Include="src\utils\manual_iterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ds_handler.h">
+    <ClInclude Include="src\utils\ds_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\sorter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -488,24 +488,18 @@ namespace ds::adt {
     template<typename P, typename T>
     void TwoLists<P, T>::push(P priority, T data)
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 
     template<typename P, typename T>
     T& TwoLists<P, T>::peek()
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 
     template<typename P, typename T>
     T TwoLists<P, T>::pop()
     {
-        // TODO 09
-        // po implementacii vymazte vyhodenie vynimky!
         throw std::runtime_error("Not implemented yet");
     }
 

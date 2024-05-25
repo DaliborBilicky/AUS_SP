@@ -130,13 +130,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ds_handler.cpp" />
-    <ClCompile Include="src\manual_iterator.cpp" />
+    <ClCompile Include="src\utils\ds_handler.cpp" />
+    <ClCompile Include="src\utils\manual_iterator.cpp" />
     <ClCompile Include="src\app.cpp" />
     <ClCompile Include="src\menu\states.cpp" />
     <ClCompile Include="src\menu\prompt.cpp" />
     <ClCompile Include="src\menu\current_state.cpp" />
-    <ClCompile Include="src\algorithms.cpp" />
+    <ClCompile Include="src\utils\algorithms.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\units\territorial_unit.cpp" />
     <ClCompile Include="src\units\units.cpp" />
@@ -145,15 +145,16 @@
     <None Include="res\CR_win1250.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ds_handler.h" />
-    <ClInclude Include="src\manual_iterator.h" />
+    <ClInclude Include="src\utils\ds_handler.h" />
+    <ClInclude Include="src\utils\manual_iterator.h" />
     <ClInclude Include="src\app.h" />
     <ClInclude Include="src\menu\states.h" />
     <ClInclude Include="src\menu\prompt.h" />
     <ClInclude Include="src\menu\current_state.h" />
-    <ClInclude Include="src\algorithms.h" />
+    <ClInclude Include="src\utils\algorithms.h" />
     <ClInclude Include="src\units\territorial_unit.h" />
     <ClInclude Include="src\units\units.h" />
+    <ClInclude Include="src\utils\sorter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
