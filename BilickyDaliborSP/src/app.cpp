@@ -1,11 +1,12 @@
 #include "app.h"
-#include "algorithms.h"
-#include "manual_iterator.h"
+#include "utils/algorithms.h"
+#include "utils/manual_iterator.h"
 #include "menu/current_state.h"
 #include "menu/states.h"
 #include "units/territorial_unit.h"
 #include "units/units.h"
 #include "menu/prompt.h"
+#include "utils/sorter.h"
 #include <functional>
 #include <iostream>
 #include <libds/amt/explicit_hierarchy.h>
@@ -210,57 +211,25 @@ void App::sortData() {
               << "  [\033[93m1\033[0m] - ConsonantCount\n";
     int number = Prompt::getInput(1);
     if (number == 0) {
-		ds::adt::QuickSort<TerritorialUnit*> quick;
-		quick.sort(
+		Sorter<TerritorialUnit*> sorter;
+		sorter.sort(
 			this->results,
-			[&](TerritorialUnit *const &a, TerritorialUnit *const &b) -> bool {
-                std::string name1 = a->getName(); 
-                std::string name2 = b->getName();
-                size_t len = std::min(name1.length(), name2.length());
-
-                for (size_t i = 0; i < len; i++) {
-                    if (name1[i] == name2[i]) {
-                        continue;
-                    }
-
-                    int weight1 = Algorithms::getWeight(name1[i]);
-					int weight2 = Algorithms::getWeight(name2[i]);
-
-                    if (i < len - 1) {
-                        std::string substr1 = name1.substr(i, 2);
-						std::string substr2 = name2.substr(i, 2);
-            
-						if (substr1 == "ch") {
-							return 60 < weight2;
-						}
-						if (substr1 == "Ch") {
-							return 18 < weight2;
-						}
-						if (substr2 == "ch") {
-							return weight1 < 60;
-						}
-						if (substr2 == "Ch") {
-							return weight1 < 18;
-						}
-                    }
-					
-					if (weight1 < weight2) {
-						return true;
-					}
-					if (weight1 > weight2) {
-						return false;
-					}
-                }
-                return name1.length() < name2.length();
+			[&](TerritorialUnit *const &a, TerritorialUnit *const &b) -> int {
+				return std::strcoll(a->getName().c_str(), b->getName().c_str());
 			});
 
     } else {
-		ds::adt::QuickSort<TerritorialUnit*> quick;
-		quick.sort(
+		Sorter<TerritorialUnit*> sorter;
+		sorter.sort(
 			this->results,
-			[](TerritorialUnit *const &a, TerritorialUnit *const &b) -> bool {
-				return Algorithms::countConsonant(a->getName()) 
-                    < Algorithms::countConsonant(b->getName());
+			[](TerritorialUnit *const &a, TerritorialUnit *const &b) -> int { 
+                if (Algorithms::countConsonant(a->getName()) < Algorithms::countConsonant(b->getName())) {
+					return -1;
+			    } else if (Algorithms::countConsonant(a->getName()) == Algorithms::countConsonant(b->getName())) { 
+                    return 0;
+                } else {
+					return 1;
+                }
 			});
     } 
 }

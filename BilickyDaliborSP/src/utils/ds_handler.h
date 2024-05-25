@@ -11,10 +11,10 @@ using IS = ds::amt::ImplicitSequence<TerritorialUnit *>;
 
 class DSHandler {
   private:
-    ds::adt::SortedSequenceTable<std::string,
+    ds::adt::Treap<std::string,
 				ds::amt::SinglyLinkedSequence<Settlement *> *> settlementsTable;
-    ds::adt::SortedSequenceTable<std::string, Soorp *> soorpsTable;
-    ds::adt::SortedSequenceTable<std::string, Region *> regionsTable;
+    ds::adt::Treap<std::string, Soorp *> soorpsTable;
+    ds::adt::Treap<std::string, Region *> regionsTable;
     ds::amt::ImplicitSequence<Settlement *> settlements; 
     ds::amt::ImplicitSequence<Soorp *> soorps; 
     ds::amt::ImplicitSequence<Region *> regions; 
@@ -27,6 +27,6 @@ class DSHandler {
     void addSoorp(Soorp* unit);
     void addSettlement(Settlement* unit);
     void filterFromSequence(UnitType type, IS &results,
-                             std::function<bool(TerritorialUnit *)> predicate);
+                             std::function<bool(TerritorialUnit *)>& predicate);
     void findInTable(UnitType type, IS &results, std::string &key);
 };

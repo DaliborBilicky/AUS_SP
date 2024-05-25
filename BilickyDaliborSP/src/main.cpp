@@ -1,5 +1,6 @@
 #include "app.h"
 #include "units/units.h"
+#include <locale>
 #include <libds/amt/explicit_hierarchy.h>
 #include <libds/heap_monitor.h>
 #include <windows.h>
@@ -7,6 +8,7 @@
 
 int main(int argc, char *argv[]) {
     initHeapMonitor();
+    std::setlocale(LC_ALL, "Czech_Czechia.1250");
     SetConsoleCP(1250);
     SetConsoleOutputCP(1250);
 

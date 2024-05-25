@@ -1,4 +1,4 @@
-#include "algorithms.h"
+#include "utils/algorithms.h"
 #include "units/units.h"
 #include <fstream>
 #include <libds/amt/explicit_hierarchy.h>
@@ -141,7 +141,7 @@ int Algorithms::countConsonant(const std::string& name) {
             }
         }
         if (i < name.size() - 1 && name.substr(i, 2) == "ch" ||
-            name.substr(i, 2) == "Ch") {
+            name.substr(i, 2) == "Ch" || name.substr(i, 2) == "CH") {
             number -= 2;
             number++;
         }

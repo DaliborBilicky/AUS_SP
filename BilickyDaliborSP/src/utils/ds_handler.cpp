@@ -1,8 +1,8 @@
-#include "ds_handler.h"
-#include "algorithms.h"
+#include "utils/ds_handler.h"
+#include "utils/algorithms.h"
 #include <libds/heap_monitor.h>
 
-DSHandler::DSHandler() {
+DSHandler::DSHandler() { 
 }
 
 DSHandler::~DSHandler() {
@@ -35,7 +35,7 @@ void DSHandler::addSettlement(Settlement *unit) {
 }
 
 void DSHandler::filterFromSequence(UnitType type, IS &results, 
-        std::function<bool(TerritorialUnit *)> predicate) {
+        std::function<bool(TerritorialUnit *)> &predicate) {
 	switch (type) { 
         case UnitType::REGION:
 			Algorithms::process(
