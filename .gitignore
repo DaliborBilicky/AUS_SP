@@ -34,3 +34,5 @@
 .vs
 *.pdf
 x64
+*.png
+*.docx
